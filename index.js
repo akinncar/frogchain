@@ -29,7 +29,7 @@ global.atob = global.atob || require('base-64').decode;
 process.version = 'v9.40';
 
 const { registerRootComponent, scheme } = require('expo');
-const { default: App } = require('./frontend/App');
+const { default: App } = require('./src/App');
 
 const { default: AsyncStorage } = require('@react-native-async-storage/async-storage');
 const { withWalletConnect } = require('@walletconnect/react-native-dapp');
