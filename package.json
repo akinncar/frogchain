@@ -71,7 +71,7 @@
     "eject": "expo eject",
     "audit": "npx yarn-audit-fix",
     "postinstall": "node_modules/.bin/ts-node scripts/postinstall",
-    "test": "npx hardhat test && jest",
+    "test": "npx hardhat test && jest --passWithNoTests",
     "web:deploy": "expo build:web && gh-pages -d web-build"
   },
   "version": "1.0.0",
