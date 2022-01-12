@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import CryptocurrencyIcon from 'rn-crypto-icons';
 
-export function CoinCardItem({ title, price }): JSX.Element {
+export function CryptoCurrencyCardItem({ title, price }): JSX.Element {
   return (
     <View
       style={{

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { CoinCardItem } from './CoinCardItem';
+import { CryptoCurrencyCardItem } from './CryptoCurrencyCardItem';
 
 export function Home(): JSX.Element {
   const [BTC, setBTC] = useState('0.0');
@@ -44,8 +44,8 @@ export function Home(): JSX.Element {
         },
       ]}
     >
-      <CoinCardItem title="BTC" price={BTC} />
-      <CoinCardItem title="ETH" price={ETH} />
+      <CryptoCurrencyCardItem title="BTC" price={BTC} />
+      <CryptoCurrencyCardItem title="ETH" price={ETH} />
     </View>
   );
 }
