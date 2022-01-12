@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { CoinCardItem } from './CoinCardItem';
+
 export function Home(): JSX.Element {
   const [BTC, setBTC] = useState('0.0');
   const [ETH, setETH] = useState('0.0');
@@ -38,11 +40,12 @@ export function Home(): JSX.Element {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
+          paddingHorizontal: 16,
         },
       ]}
     >
-      <Text>BTC Price: ${BTC.split('.')[0]}</Text>
-      <Text>ETH Price: ${ETH.split('.')[0]}</Text>
+      <CoinCardItem title="BTC" price={BTC} />
+      <CoinCardItem title="ETH" price={ETH} />
     </View>
   );
 }
