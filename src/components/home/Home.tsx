@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export function Home(): JSX.Element {
-  const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@aggTrade');
+  const [BTC, setBTC] = useState('0.0');
+  const [ETH, setETH] = useState('0.0');
 
-  const [btc, setBtc] = useState(0);
+  useEffect(() => {
+    const wsBTC = new WebSocket(
+      'wss://stream.binance.com:9443/ws/btcusdt@aggTrade'
+    );
+    const wsETH = new WebSocket(
+      'wss://stream.binance.com:9443/ws/ethusdt@aggTrade'
+    );
 
-  ws.onopen = () => {
-    ws.send({
-      method: 'SUBSCRIBE',
-      params: ['btcusdt@aggTrade', 'ethusdt@aggTrade'],
-      id: 1,
-    });
-  };
+    wsBTC.onmessage = event => {
+      const data = JSON.parse(event?.data);
 
-  ws.onmessage = e => {
-    const data = JSON.parse(e.data);
-    setBtc(data.p);
-    console.log(`${data.s}: ${data.p}`);
-  };
+      if (data.p && data.p !== BTC) {
+        setBTC(data?.p);
+      }
+    };
 
-  ws.onerror = e => {
-    console.log(e.message);
-  };
+    wsETH.onmessage = event => {
+      const data = JSON.parse(event?.data);
+
+      if (data.p && data.p !== ETH) {
+        setETH(data?.p);
+      }
+    };
+  }, []);
 
   return (
     <View
@@ -35,7 +41,8 @@ export function Home(): JSX.Element {
         },
       ]}
     >
-      <Text>BTC Price: {btc}</Text>
+      <Text>BTC Price: ${BTC.split('.')[0]}</Text>
+      <Text>ETH Price: ${ETH.split('.')[0]}</Text>
     </View>
   );
 }
