@@ -21,6 +21,7 @@
     "expo-status-bar": "~1.2.0",
     "node-libs-browser": "2.2.1",
     "path-browserify": "0.0.0",
+    "randombytes": "^2.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",

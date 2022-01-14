@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { generateMnemonic } from 'bip39';
 import { addHexPrefix } from 'ethereumjs-util';
 import { isEmpty } from 'lodash';
+import randomBytes from 'randombytes'
 
 export type EthereumPrivateKey = string;
 type EthereumMnemonic = string;
@@ -99,11 +100,11 @@ export const createWallet = async (
   const walletSeed = seed || generateMnemonic();
   const addresses = [];
   try {
-    const pkey = walletSeed;
-    const ethersWallet = new Wallet(pkey);
-    console.log({ ethersWallet })
+    const privateKey = randomBytes(32)
+    const wallet = new Wallet(privateKey);
+    console.log({ wallet })
 
-    const walletAddress = ethersWallet.address
+    const walletAddress = wallet.address
     console.log('[createWallet] - getWallet from seed');
 
     // Get all wallets
@@ -122,7 +123,7 @@ export const createWallet = async (
     console.log('[createWallet] - saved address');
 
     // Save private key
-    await AsyncStorage.setItem(`WalletPrivateKey ${walletAddress}`, pkey)
+    await AsyncStorage.setItem(`WalletPrivateKey ${walletAddress}`, privateKey)
     console.log('[createWallet] - saved private key');
 
     addresses.push({
@@ -152,10 +153,7 @@ export const createWallet = async (
     await AsyncStorage.setItem('allWallets', JSON.stringify(allWallets))
     console.log('[createWallet] - save allWallets');
 
-    const newWallet = new Wallet(pkey);
-    console.log('[createWallet] - newWallet', newWallet)
-
-    return newWallet
+    return wallet
   } catch (error) {
     console.log('Error in createWallet', error);
     return null;
