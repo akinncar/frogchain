@@ -3,7 +3,7 @@ import {
   JsonRpcProvider
 } from '@ethersproject/providers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { generateMnemonic } from 'bip39';
+import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { addHexPrefix } from 'ethereumjs-util';
 import { isEmpty } from 'lodash';
 import randomBytes from 'randombytes'
@@ -70,10 +70,7 @@ export const walletInit = async (
   let isNew = false;
 
   if (!isEmpty(seedPhrase)) {
-    const wallet = await createWallet(
-      seedPhrase,
-      name
-    );
+    const wallet = await createWallet(name);
     walletAddress = wallet?.address;
     return { isNew, walletAddress };
   }
@@ -89,20 +86,17 @@ export const walletInit = async (
 };
 
 export const createWallet = async (
-  seed: null | EthereumSeed = null,
   name: null | string = null
 ): Promise<null | EthereumWallet> => {
-  const isImported = !!seed;
-  console.log('Creating wallet, isImported?', isImported);
-  if (!seed) {
-    console.log('Generating a new seed phrase');
-  }
-  const walletSeed = seed || generateMnemonic();
+  console.log('Creating wallet');
+  console.log('Generating a new seed phrase');
+  const mnemonic = generateMnemonic();
   const addresses = [];
   try {
-    const privateKey = randomBytes(32)
-    const wallet = new Wallet(privateKey);
-    console.log({ wallet })
+    const seed = await mnemonicToSeed(mnemonic)
+    const privateKey = addHexPrefix(seed.toString('hex'))
+
+    const wallet = new Wallet(addHexPrefix(privateKey));
 
     const walletAddress = wallet.address
     console.log('[createWallet] - getWallet from seed');
@@ -115,7 +109,7 @@ export const createWallet = async (
     console.log('[createWallet] - wallet ID', { id });
 
     // Save wallet seed
-    await AsyncStorage.setItem(`WalletSeed ${id}`, walletSeed)
+    await AsyncStorage.setItem(`WalletSeed ${id}`, mnemonic)
     console.log('[createWallet] - saved seed phrase');
 
     // Save address
@@ -140,7 +134,6 @@ export const createWallet = async (
       addresses,
       backedUp: false,
       id,
-      imported: isImported,
       name: walletName,
       primary: true,
     };
