@@ -96,7 +96,7 @@ export const createWallet = async (
     const seed = await mnemonicToSeed(mnemonic)
     const privateKey = addHexPrefix(seed.toString('hex'))
 
-    const wallet = new Wallet(addHexPrefix(privateKey));
+    const wallet = new Wallet(privateKey);
 
     const walletAddress = wallet.address
     console.log('[createWallet] - getWallet from seed');
