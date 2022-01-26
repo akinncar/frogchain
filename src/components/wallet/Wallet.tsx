@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getWalletBalance, walletInit } from '../../core/wallet';
+import { getWalletBalance, sendTransaction, walletInit } from '../../core/wallet';
 
 export function Wallet(): JSX.Element {
   async function handleCreateWallet() {
@@ -10,12 +10,20 @@ export function Wallet(): JSX.Element {
     console.log({ newWallet });
   }
 
-  async function handleSendTransaction() {
+  async function handleShowBalance() {
     const privateKey = await AsyncStorage.getItem(
       'WalletPrivateKey 0x83b7cccE2D0579ED8cA5948f082FD6cEd79DDb05'
     );
     const walletBalance = await getWalletBalance(privateKey);
     return Alert.alert('Wallet Balance:', walletBalance);
+  }
+
+  async function handleSendTransaction() {
+    const privateKey = await AsyncStorage.getItem(
+      'WalletPrivateKey 0x83b7cccE2D0579ED8cA5948f082FD6cEd79DDb05'
+    );
+    const transactionResult = await sendTransaction({ privateKey });
+    console.log({ transactionResult })
   }
 
   async function handleDeleteAllWallets() {
@@ -40,7 +48,8 @@ export function Wallet(): JSX.Element {
       ]}
     >
       <Button title="Create wallet" onPress={handleCreateWallet} />
-      <Button title="Wallet Balance" onPress={handleSendTransaction} />
+      <Button title="Wallet Balance" onPress={handleShowBalance} />
+      <Button title="Send Transaction" onPress={handleSendTransaction} />
       <Button title="Delete all wallets" onPress={handleDeleteAllWallets} />
     </View>
   );

@@ -1,12 +1,13 @@
 import { Wallet } from '@ethersproject/wallet';
 import '@ethersproject/shims';
 import { InfuraProvider } from '@ethersproject/providers';
-import { formatEther } from '@ethersproject/units';
+import { formatEther, parseEther } from '@ethersproject/units';
 import { providers } from 'ethers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { addHexPrefix } from 'ethereumjs-util';
 import { isEmpty } from 'lodash';
+import { hexlify } from 'ethers/lib/utils';
 import randomBytes from 'randombytes';
 
 export type EthereumPrivateKey = string;
@@ -194,6 +195,37 @@ export const getWalletBalance = async privateKey => {
     const formattedWalletBalance = formatEther(walletBalance.toString());
 
     return formattedWalletBalance;
+  } catch (err) {
+    console.log({ err });
+  }
+};
+
+export const sendTransaction = async ({
+  privateKey
+}) => {
+  const provider = new providers.InfuraProvider('rinkeby', {
+    projectId: '31ca56ac9df649e8a872c6e6b3c6c4b9',
+    projectSecret: 'e0bf386ec6dc411580520f78fa11631f',
+  });
+  const wallet = new Wallet(privateKey, provider);
+  const gasPrice = provider.getGasPrice();
+
+  const sendAccount = wallet.address
+  const gasLimit = 100000
+
+  const transaction = {
+    from: sendAccount,
+    to: '0x4B43B8EBB73241B9eDb2878B42531A115a09Bd76',
+    value: parseEther('0.1'),
+    nonce: provider.getTransactionCount(sendAccount, 'latest'),
+    gasLimit: hexlify(gasLimit), // 100000
+    gasPrice: gasPrice,
+  }
+    
+  try {
+    const result = await wallet.sendTransaction(transaction);
+    console.log('tx result', result);
+    return { result }; 
   } catch (err) {
     console.log({ err });
   }
