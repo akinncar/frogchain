@@ -224,7 +224,7 @@ export const sendTransaction = async ({
     
   try {
     const result = await wallet.sendTransaction(transaction);
-    console.log('tx result', result);
+    console.log('transaction result', result);
     return { result }; 
   } catch (err) {
     console.log({ err });
