@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import tw from 'twrnc';
 
 import { CryptoCurrencyCard } from './CryptoCurrencyCard';
 
@@ -33,17 +34,7 @@ export function Home(): JSX.Element {
   }, []);
 
   return (
-    <View
-      style={[
-        StyleSheet.absoluteFill,
-        {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingHorizontal: 16,
-        },
-      ]}
-    >
+    <View style={[StyleSheet.absoluteFill, tw`justify-center bg-black px-4`]}>
       <CryptoCurrencyCard title="BTC" price={BTC} />
       <CryptoCurrencyCard title="ETH" price={ETH} />
     </View>
