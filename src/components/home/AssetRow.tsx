@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import tw from 'twrnc';
+import { tw } from '../../ui/tailwind';
 import assetIcons from '../../ui/svg/assets';
 
 export function AssetRow({ ticker, price }): JSX.Element {
@@ -8,7 +8,7 @@ export function AssetRow({ ticker, price }): JSX.Element {
 
   return (
     <View
-      style={tw`p-4 my-2 flex-row rounded-lg items-center justify-between bg-gray-800 `}
+      style={tw`p-4 my-2 flex-row rounded-lg items-center justify-between bg-background`}
     >
       <>
         <Icon />
