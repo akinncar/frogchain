@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import tw from 'twrnc';
 
-import { CryptoCurrencyCard } from './CryptoCurrencyCard';
+import { AssetRow } from './AssetRow';
 
 export function Home(): JSX.Element {
   const [BTC, setBTC] = useState('0.0');
@@ -35,8 +35,8 @@ export function Home(): JSX.Element {
 
   return (
     <View style={[StyleSheet.absoluteFill, tw`justify-center bg-black px-4`]}>
-      <CryptoCurrencyCard title="BTC" price={BTC} />
-      <CryptoCurrencyCard title="ETH" price={ETH} />
+      <AssetRow ticker="BTC" price={BTC} />
+      <AssetRow ticker="ETH" price={ETH} />
     </View>
   );
 }
