@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { tw } from '../../ui/tailwind';
+
 import {
   getWalletBalance,
   sendTransaction,
@@ -10,13 +12,16 @@ import {
 
 export function Wallet(): JSX.Element {
   async function handleCreateWallet() {
-    const newWallet = await walletInit(null, null, null);
+    const newWallet = await walletInit({
+      seedPhrase: null,
+      network: null,
+    });
     console.log({ newWallet });
   }
 
   async function handleShowBalance() {
     const privateKey = await AsyncStorage.getItem(
-      'WalletPrivateKey 0x83b7cccE2D0579ED8cA5948f082FD6cEd79DDb05'
+      'WalletPrivateKey 0x6ae8018b258e978375d7e51af3d3c7891c0fcdb5'
     );
     const walletBalance = await getWalletBalance(privateKey);
     return Alert.alert('Wallet Balance:', walletBalance);
@@ -43,12 +48,7 @@ export function Wallet(): JSX.Element {
     <View
       style={[
         StyleSheet.absoluteFill,
-        {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingHorizontal: 16,
-        },
+        tw`flex-1 items-center justify-center bg-black`,
       ]}
     >
       <Button title="Create wallet" onPress={handleCreateWallet} />

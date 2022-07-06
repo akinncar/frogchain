@@ -29,7 +29,19 @@ function BottomTabs() {
           },
         }}
       />
-      <Tab.Screen name="Wallet" component={Wallet} />
+      <Tab.Screen
+        name="Wallet"
+        component={Wallet}
+        options={{
+          headerStyle: {
+            backgroundColor: '#000000',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
     </Tab.Navigator>
   );
 }

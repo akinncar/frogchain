@@ -8,7 +8,7 @@ import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { addHexPrefix } from 'ethereumjs-util';
 import { isEmpty } from 'lodash';
 import { hexlify } from 'ethers/lib/utils';
-import randomBytes from 'randombytes';
+// import randomBytes from 'randombytes';
 
 export type EthereumPrivateKey = string;
 type EthereumMnemonic = string;
@@ -19,10 +19,7 @@ export type EthereumWalletSeed =
   | EthereumMnemonic
   | EthereumSeed;
 
-type WalletInitialized = {
-  readonly isNew: boolean;
-  readonly walletAddress?: any;
-};
+type WalletInitialized = {};
 
 type ReadOnlyWallet = {
   readonly address: any;
@@ -63,17 +60,24 @@ export const allWalletsVersion = 1.0;
 
 export const DEFAULT_WALLET_NAME = 'My Wallet';
 
+export const getAllWallets = async (): Promise<ReadonlyArray<any>> => {
+  const allWallets = await AsyncStorage.getItem('allWallets');
+  return allWallets ? JSON.parse(allWallets) : [];
+};
+
 export const walletInit = async (
-  seedPhrase = null,
-  name = null,
-  network: string | null
+  { seedPhrase, network } = {
+    seedPhrase: null,
+    network: null,
+  }
 ): Promise<WalletInitialized> => {
   let walletAddress = null;
   let isNew = false;
 
   if (!isEmpty(seedPhrase)) {
-    const wallet = await createWallet(name);
+    const wallet = await createWallet(seedPhrase);
     walletAddress = wallet?.address;
+    console.log({ walletAddress });
     return { isNew, walletAddress };
   }
 
@@ -88,11 +92,11 @@ export const walletInit = async (
 };
 
 export const createWallet = async (
-  name: null | string = null
+  seedPhrase: null | string = null
 ): Promise<null | EthereumWallet> => {
   console.log('Creating wallet');
   console.log('Generating a new seed phrase');
-  const mnemonic = generateMnemonic();
+  const mnemonic = seedPhrase || generateMnemonic();
   const addresses = [];
 
   try {
@@ -109,7 +113,8 @@ export const createWallet = async (
 
     // Get all wallets
     console.log('[createWallet] - getAllWallets');
-    const allWallets = [];
+    // eslint-disable-next-line prefer-const
+    let allWallets = await getAllWallets();
 
     const id = `wallet_${Date.now()}`;
     console.log('[createWallet] - wallet ID', { id });
@@ -126,32 +131,36 @@ export const createWallet = async (
     await AsyncStorage.setItem(`WalletPrivateKey ${walletAddress}`, privateKey);
     console.log('[createWallet] - saved private key');
 
-    // addresses.push({
-    //   address: walletAddress,
-    //   index: 0,
-    //   label: name || '',
-    //   visible: true,
-    // });
-
     // if imported and we have only one account, we name the wallet too.
     const walletName = DEFAULT_WALLET_NAME;
 
-    allWallets[id] = {
-      addresses: [walletAddress],
+    // allWallets[id] = {
+    //   addresses: [{ address: walletAddress }],
+    //   backedUp: false,
+    //   id,
+    //   name: walletName,
+    //   primary: true,
+    //   mnemonic, // remove later
+    //   privateKey, // remove later
+    // };
+    allWallets.push({
+      addresses: [
+        { address: walletAddress, index: 0, label: '', visible: true },
+      ],
       backedUp: false,
       id,
       name: walletName,
       primary: true,
       mnemonic, // remove later
       privateKey, // remove later
-    };
+    });
 
     // Save allWallets[id]
-    await AsyncStorage.setItem(
-      `allWallets[${id}]`,
-      JSON.stringify(allWallets[id])
-    );
-    console.log('[createWallet] - save allWallets[id]');
+    // await AsyncStorage.setItem(
+    //   `allWallets[${id}]`,
+    //   JSON.stringify(allWallets[id])
+    // );
+    // console.log('[createWallet] - save allWallets[id]');
 
     // Save allWallets
     await AsyncStorage.setItem('allWallets', JSON.stringify(allWallets));
@@ -200,9 +209,7 @@ export const getWalletBalance = async privateKey => {
   }
 };
 
-export const sendTransaction = async ({
-  privateKey
-}) => {
+export const sendTransaction = async ({ privateKey }) => {
   const provider = new providers.InfuraProvider('rinkeby', {
     projectId: '31ca56ac9df649e8a872c6e6b3c6c4b9',
     projectSecret: 'e0bf386ec6dc411580520f78fa11631f',
@@ -210,8 +217,8 @@ export const sendTransaction = async ({
   const wallet = new Wallet(privateKey, provider);
   const gasPrice = provider.getGasPrice();
 
-  const sendAccount = wallet.address
-  const gasLimit = 100000
+  const sendAccount = wallet.address;
+  const gasLimit = 100000;
 
   const transaction = {
     from: sendAccount,
@@ -220,12 +227,12 @@ export const sendTransaction = async ({
     nonce: provider.getTransactionCount(sendAccount, 'latest'),
     gasLimit: hexlify(gasLimit), // 100000
     gasPrice: gasPrice,
-  }
-    
+  };
+
   try {
     const result = await wallet.sendTransaction(transaction);
     console.log('transaction result', result);
-    return { result }; 
+    return { result };
   } catch (err) {
     console.log({ err });
   }
