@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { tw } from '../../ui/tailwind';
+import { tw } from '../ui/tailwind';
 
 import { AssetRow } from './AssetRow';
 

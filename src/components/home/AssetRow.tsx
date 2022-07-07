@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { tw } from '../../ui/tailwind';
-import assetIcons from '../../ui/svg/assets';
+import { tw } from '../ui/tailwind';
+import assetIcons from '../ui/svg/asset-icon';
 
 export function AssetRow({ ticker, price }): JSX.Element {
   const Icon = assetIcons[ticker];

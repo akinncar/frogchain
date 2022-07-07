@@ -19,6 +19,7 @@ export type EthereumWalletSeed =
   | EthereumMnemonic
   | EthereumSeed;
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 type WalletInitialized = {};
 
 type ReadOnlyWallet = {

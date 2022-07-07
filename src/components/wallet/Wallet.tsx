@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { tw } from '../../ui/tailwind';
+import { tw } from '../ui/tailwind';
 
 import {
   getWalletBalance,
