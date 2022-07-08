@@ -1,13 +1,16 @@
-import { Wallet } from '@ethersproject/wallet';
+import 'react-native-get-random-values';
 import '@ethersproject/shims';
-import { InfuraProvider } from '@ethersproject/providers';
-import { formatEther, parseEther } from '@ethersproject/units';
-import { providers } from 'ethers';
+import {Wallet} from '@ethersproject/wallet';
+import {InfuraProvider} from '@ethersproject/providers';
+import {formatEther, parseEther} from '@ethersproject/units';
+import {providers, utils} from 'ethers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { generateMnemonic, mnemonicToSeed } from 'bip39';
-import { addHexPrefix } from 'ethereumjs-util';
-import { isEmpty } from 'lodash';
-import { hexlify } from 'ethers/lib/utils';
+import {generateMnemonic, mnemonicToSeed} from 'bip39';
+import {addHexPrefix} from 'ethereumjs-util';
+import {isEmpty} from 'lodash';
+import {hexlify} from 'ethers/lib/utils';
+import {hdkey} from 'ethereumjs-wallet';
+
 // import randomBytes from 'randombytes';
 
 export type EthereumPrivateKey = string;
@@ -61,16 +64,16 @@ export const allWalletsVersion = 1.0;
 
 export const DEFAULT_WALLET_NAME = 'My Wallet';
 
-export const getAllWallets = async (): Promise<ReadonlyArray<any>> => {
+export const getAllWallets = async (): Promise<Array<any>> => {
   const allWallets = await AsyncStorage.getItem('allWallets');
   return allWallets ? JSON.parse(allWallets) : [];
 };
 
 export const walletInit = async (
-  { seedPhrase, network } = {
+  {seedPhrase, network} = {
     seedPhrase: null,
     network: null,
-  }
+  },
 ): Promise<WalletInitialized> => {
   let walletAddress = null;
   let isNew = false;
@@ -78,8 +81,8 @@ export const walletInit = async (
   if (!isEmpty(seedPhrase)) {
     const wallet = await createWallet(seedPhrase);
     walletAddress = wallet?.address;
-    console.log({ walletAddress });
-    return { isNew, walletAddress };
+    console.log({walletAddress});
+    return {isNew, walletAddress};
   }
 
   if (!walletAddress) {
@@ -89,11 +92,11 @@ export const walletInit = async (
     console.log('walletAddress?.toLowerCase()', walletAddress?.toLowerCase());
     console.log('network', network);
   }
-  return { isNew, walletAddress };
+  return {isNew, walletAddress};
 };
 
 export const createWallet = async (
-  seedPhrase: null | string = null
+  seedPhrase: null | string = null,
 ): Promise<null | EthereumWallet> => {
   console.log('Creating wallet');
   console.log('Generating a new seed phrase');
@@ -101,13 +104,21 @@ export const createWallet = async (
   const addresses = [];
 
   try {
+    console.log({mnemonic});
     const seed = await mnemonicToSeed(mnemonic);
-    const privateKey = addHexPrefix(seed.toString('hex'));
+    const hdWallet = hdkey.fromMasterSeed(seed);
+    const root = hdWallet.derivePath("m/44'/60'/0'");
+    const child = root.deriveChild(0);
+    const walletChild = child.getWallet();
+    const privateKey = walletChild.getPrivateKeyString();
+    // const privateKey = addHexPrefix(seed.toString('hex'));
     const provider = new InfuraProvider(
       'rinkeby',
-      '31ca56ac9df649e8a872c6e6b3c6c4b9'
+      '31ca56ac9df649e8a872c6e6b3c6c4b9',
     );
     const wallet = new Wallet(privateKey, provider);
+    // let mnemonicWallet = Wallet.fromMnemonic(mnemonic);
+    // console.log('hey', mnemonicWallet.privateKey);
 
     const walletAddress = wallet.address;
     console.log('[createWallet] - getWallet from seed');
@@ -118,7 +129,7 @@ export const createWallet = async (
     let allWallets = await getAllWallets();
 
     const id = `wallet_${Date.now()}`;
-    console.log('[createWallet] - wallet ID', { id });
+    console.log('[createWallet] - wallet ID', {id});
 
     // Save wallet seed
     await AsyncStorage.setItem(`WalletMnemonic ${walletAddress}`, mnemonic);
@@ -145,9 +156,7 @@ export const createWallet = async (
     //   privateKey, // remove later
     // };
     allWallets.push({
-      addresses: [
-        { address: walletAddress, index: 0, label: '', visible: true },
-      ],
+      addresses: [{address: walletAddress, index: 0, label: '', visible: true}],
       backedUp: false,
       id,
       name: walletName,
@@ -170,20 +179,20 @@ export const createWallet = async (
     const resultAllWallets = await AsyncStorage.getAllKeys();
     console.log(
       '[resultAllWallets] - AsyncStorage allWallets',
-      resultAllWallets
+      resultAllWallets,
     );
 
     console.log(
       'WalletAddress: ',
-      await AsyncStorage.getItem(`WalletAddress ${walletAddress}`)
+      await AsyncStorage.getItem(`WalletAddress ${walletAddress}`),
     );
     console.log(
       'WalletMnemonic: ',
-      await AsyncStorage.getItem(`WalletMnemonic ${walletAddress}`)
+      await AsyncStorage.getItem(`WalletMnemonic ${walletAddress}`),
     );
     console.log(
       'WalletPrivateKey: ',
-      await AsyncStorage.getItem(`WalletPrivateKey ${walletAddress}`)
+      await AsyncStorage.getItem(`WalletPrivateKey ${walletAddress}`),
     );
 
     return wallet;
@@ -206,11 +215,11 @@ export const getWalletBalance = async privateKey => {
 
     return formattedWalletBalance;
   } catch (err) {
-    console.log({ err });
+    console.log({err});
   }
 };
 
-export const sendTransaction = async ({ privateKey }) => {
+export const sendTransaction = async ({privateKey}) => {
   const provider = new providers.InfuraProvider('rinkeby', {
     projectId: '31ca56ac9df649e8a872c6e6b3c6c4b9',
     projectSecret: 'e0bf386ec6dc411580520f78fa11631f',
@@ -233,8 +242,8 @@ export const sendTransaction = async ({ privateKey }) => {
   try {
     const result = await wallet.sendTransaction(transaction);
     console.log('transaction result', result);
-    return { result };
+    return {result};
   } catch (err) {
-    console.log({ err });
+    console.log({err});
   }
 };
