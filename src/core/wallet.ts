@@ -1,13 +1,16 @@
-import { Wallet } from '@ethersproject/wallet';
+import 'react-native-get-random-values';
 import '@ethersproject/shims';
+import { Wallet } from '@ethersproject/wallet';
 import { InfuraProvider } from '@ethersproject/providers';
 import { formatEther, parseEther } from '@ethersproject/units';
-import { providers } from 'ethers';
+import { providers, utils } from 'ethers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { generateMnemonic, mnemonicToSeed } from 'bip39';
 import { addHexPrefix } from 'ethereumjs-util';
 import { isEmpty } from 'lodash';
 import { hexlify } from 'ethers/lib/utils';
+import { hdkey } from 'ethereumjs-wallet';
+
 // import randomBytes from 'randombytes';
 
 export type EthereumPrivateKey = string;
@@ -21,6 +24,11 @@ export type EthereumWalletSeed =
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type WalletInitialized = {};
+
+type WalletInitParams = {
+  readonly seedPhrase: string | null;
+  readonly network: any;
+};
 
 type ReadOnlyWallet = {
   readonly address: any;
@@ -67,7 +75,7 @@ export const getAllWallets = async (): Promise<ReadonlyArray<any>> => {
 };
 
 export const walletInit = async (
-  { seedPhrase, network } = {
+  { seedPhrase, network }: WalletInitParams = {
     seedPhrase: null,
     network: null,
   }
@@ -101,13 +109,21 @@ export const createWallet = async (
   const addresses = [];
 
   try {
+    console.log({ mnemonic });
     const seed = await mnemonicToSeed(mnemonic);
-    const privateKey = addHexPrefix(seed.toString('hex'));
+    const hdWallet = hdkey.fromMasterSeed(seed);
+    const root = hdWallet.derivePath('m/44\'/60\'/0\'');
+    const child = root.deriveChild(0);
+    const walletChild = child.getWallet();
+    const privateKey = walletChild.getPrivateKeyString();
+    // const privateKey = addHexPrefix(seed.toString('hex'));
     const provider = new InfuraProvider(
       'rinkeby',
       '31ca56ac9df649e8a872c6e6b3c6c4b9'
     );
     const wallet = new Wallet(privateKey, provider);
+    // let mnemonicWallet = Wallet.fromMnemonic(mnemonic);
+    // console.log('hey', mnemonicWallet.privateKey);
 
     const walletAddress = wallet.address;
     console.log('[createWallet] - getWallet from seed');

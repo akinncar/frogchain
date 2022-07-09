@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { tw } from '../ui/tailwind';
 import { Button } from '../ui/button/Button';
 import { walletInit } from '../../core/wallet';
 import Logo from '../ui/svg/Logo';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export function Onboarding({ navigation }): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleCreateWallet() {
     setIsLoading(true);
-    await walletInit();
+    const newWallet = await walletInit({
+      seedPhrase: null,
+      network: null,
+    });
+    console.log({ newWallet });
     return navigation.navigate('Main');
   }
 
@@ -27,7 +30,7 @@ export function Onboarding({ navigation }): JSX.Element {
       <SafeAreaView
         style={[
           StyleSheet.absoluteFill,
-          tw`items-center justify-between px-4 py-16`,
+          tw`items-center justify-between px-4 my-16`,
         ]}
       >
         <Logo />

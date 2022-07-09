@@ -60,7 +60,7 @@ export default function Routes() {
     getAllWallets().then(finishLoading);
   });
 
-  function finishLoading(loadedWallets) {
+  function finishLoading(loadedWallets: any) {
     setAllWallets(loadedWallets);
     setIsLoading(false);
   }

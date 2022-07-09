@@ -11,7 +11,8 @@
     "babel.config.js",
     "metro.config.js",
     "hardhat.config.js",
-    "__tests__/contracts"
+    "__tests__/contracts",
+    "shim.js"
   ],
   "plugins": [
     "import",
@@ -65,6 +66,7 @@
     "functional/no-let": "off",
     "functional/immutable-data": "off",
     "functional/prefer-type-literal": "off",
+    "functional/no-return-void": "off",
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
     "react-native/no-color-literals": "off",
