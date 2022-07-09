@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ImageBackground, StyleSheet, View } from 'react-native';
 import { tw } from '../ui/tailwind';
 
 import { AssetRow } from './AssetRow';
@@ -35,6 +35,12 @@ export function Home(): JSX.Element {
 
   return (
     <View style={[StyleSheet.absoluteFill, tw`justify-center bg-black px-4`]}>
+      <ImageBackground
+        source={require('../ui/png/background.png')}
+        resizeMode="cover"
+        style={StyleSheet.absoluteFill}
+      />
+
       <AssetRow ticker="BTC" price={BTC} />
       <AssetRow ticker="ETH" price={ETH} />
     </View>
