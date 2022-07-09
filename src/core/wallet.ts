@@ -25,6 +25,11 @@ export type EthereumWalletSeed =
 // eslint-disable-next-line @typescript-eslint/ban-types
 type WalletInitialized = {};
 
+type WalletInitParams = {
+  readonly seedPhrase: string | null;
+  readonly network: any;
+};
+
 type ReadOnlyWallet = {
   readonly address: any;
   readonly privateKey: null;
@@ -70,7 +75,7 @@ export const getAllWallets = async (): Promise<ReadonlyArray<any>> => {
 };
 
 export const walletInit = async (
-  { seedPhrase, network } = {
+  { seedPhrase, network }: WalletInitParams = {
     seedPhrase: null,
     network: null,
   }
