@@ -294,8 +294,12 @@ PODS:
     - RCTTypeSafety
     - React
     - ReactCommon/turbomodule/core
-  - react-native-udp (2.7.0):
-    - React
+  - react-native-tcp-socket (5.6.2):
+    - CocoaAsyncSocket
+    - React-Core
+  - react-native-udp (4.1.5):
+    - CocoaAsyncSocket
+    - React-Core
   - React-perflogger (0.69.1)
   - React-RCTActionSheet (0.69.1):
     - React-Core/RCTActionSheetHeaders (= 0.69.1)
@@ -374,8 +378,6 @@ PODS:
   - RNSVG (12.0.3):
     - React
   - SocketRocket (0.6.0)
-  - TcpSockets (3.3.2):
-    - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -427,6 +429,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-tcp-socket (from `../node_modules/react-native-tcp-socket`)
   - react-native-udp (from `../node_modules/react-native-udp`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -445,7 +448,6 @@ DEPENDENCIES:
   - RNOS (from `../node_modules/react-native-os`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
-  - TcpSockets (from `../node_modules/react-native-tcp`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -511,6 +513,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-randombytes"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-tcp-socket:
+    :path: "../node_modules/react-native-tcp-socket"
   react-native-udp:
     :path: "../node_modules/react-native-udp"
   React-perflogger:
@@ -547,8 +551,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  TcpSockets:
-    :path: "../node_modules/react-native-tcp"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -588,7 +590,8 @@ SPEC CHECKSUMS:
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
-  react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
+  react-native-tcp-socket: c1b7297619616b4c9caae6889bcb0aba78086989
+  react-native-udp: 8864b1211857e9d8224ae5cbaf8580970fb99de1
   React-perflogger: c9161ff0f1c769993cd11d2751e4331ff4ceb7cd
   React-RCTActionSheet: 2d885b0bea76a5254ef852939273edd8de116180
   React-RCTAnimation: 353fa4fc3c19060068832dd32e555182ec07be45
@@ -607,7 +610,6 @@ SPEC CHECKSUMS:
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
