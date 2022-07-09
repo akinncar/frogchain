@@ -15,7 +15,10 @@ export function AssetRow({ ticker, price }): JSX.Element {
         <Text style={tw`text-white pl-4`}>{ticker}</Text>
       </>
       <Text style={tw`flex-1 text-white text-right`}>
-        ${price.split('.')[0]}
+        {parseFloat(price).toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        })}
       </Text>
     </View>
   );
