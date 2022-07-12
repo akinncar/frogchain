@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { tw } from '../ui/tailwind';
 import { Button } from '../ui/button/Button';
-import { walletInit } from '../../core/wallet';
+import { walletInit } from '../../core/wallet/walletInit';
 
 export function Onboarding({ navigation }): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);

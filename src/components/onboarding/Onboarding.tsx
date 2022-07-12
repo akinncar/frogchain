@@ -3,7 +3,7 @@ import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { tw } from '../ui/tailwind';
 import { Button } from '../ui/button/Button';
-import { walletInit } from '../../core/wallet';
+import { walletInit } from '../../core/wallet/walletInit';
 import Logo from '../ui/svg/Logo';
 
 export function Onboarding({ navigation }): JSX.Element {
