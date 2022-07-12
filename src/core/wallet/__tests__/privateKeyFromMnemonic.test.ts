@@ -1,4 +1,4 @@
-import { privateKeyFromMnemonic } from '../temp';
+import { privateKeyFromMnemonic } from '../privateKeyFromMnemonic';
 
 describe('wallet', () => {
   it('generates wallet with correct private key', async () => {
