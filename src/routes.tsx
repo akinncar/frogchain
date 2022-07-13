@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import { getAllWallets } from './core/wallet/getAllWallets';
+import { useMMKVString } from 'react-native-mmkv';
 
 import { Onboarding } from './components/onboarding/Onboarding';
 import { Home } from './components/home/Home';
 import { Wallet } from './components/wallet/Wallet';
-import { Loading } from './components/ui/loading/Loading';
+import { getWallet } from './core/wallet/getWallet';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,26 +52,15 @@ function BottomTabs() {
 }
 
 export default function Routes() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [allWallets, setAllWallets] = useState([]);
-
-  useEffect(() => {
-    getAllWallets().then(finishLoading);
-  });
-
-  function finishLoading(loadedWallets: any) {
-    setAllWallets(loadedWallets);
-    setIsLoading(false);
-  }
-
-  if (isLoading) {
-    return <Loading />;
-  }
+  const [walletPrivateKey] = useMMKVString('wallet.private-key');
+  const wallet = getWallet(walletPrivateKey);
+  console.log({ walletPrivateKey });
+  console.log({ wallet });
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={allWallets.length > 0 ? 'Main' : 'Onboarding'}
+        initialRouteName={wallet ? 'Main' : 'Onboarding'}
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />

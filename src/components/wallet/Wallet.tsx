@@ -1,15 +1,17 @@
 import React from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useMMKVString } from 'react-native-mmkv';
 
 import { tw } from '../ui/tailwind';
 
 import { walletInit } from '../../core/wallet/walletInit';
-import { getDefaultWallet } from '../../core/wallet/getDefaultWallet';
 import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 import { sendTransaction } from '../../core/wallet/sendTransaction';
+import { storage } from '../../core/storage/storage';
 
 export function Wallet(): JSX.Element {
+  const [walletPrivateKey] = useMMKVString('wallet.private-key');
+
   async function handleCreateWallet() {
     const newWallet = await walletInit({
       seedPhrase: null,
@@ -19,28 +21,21 @@ export function Wallet(): JSX.Element {
   }
 
   async function handleShowBalance() {
-    const wallet = await getDefaultWallet();
     const walletBalance = await getWalletBalance({
-      privateKey: wallet.privateKey,
+      privateKey: walletPrivateKey,
     });
     return Alert.alert('Wallet Balance:', walletBalance);
   }
 
   async function handleSendTransaction() {
-    const wallet = await getDefaultWallet();
     const transactionResult = await sendTransaction({
-      privateKey: wallet.privateKey,
+      privateKey: walletPrivateKey,
     });
     console.log({ transactionResult });
   }
 
   async function handleDeleteAllWallets() {
-    await AsyncStorage.clear();
-    const resultAllWallets = await AsyncStorage.getAllKeys();
-    console.log(
-      '[resultAllWallets] - AsyncStorage allWallets',
-      resultAllWallets
-    );
+    storage.clearAll();
   }
 
   return (

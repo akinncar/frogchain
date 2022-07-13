@@ -1,15 +1,14 @@
 import 'react-native-get-random-values';
 import '@ethersproject/shims';
-import { Wallet } from '@ethersproject/wallet';
-import { InfuraProvider } from '@ethersproject/providers';
 import { formatEther } from '@ethersproject/units';
+import { getWallet } from './getWallet';
 
-export const getWalletBalance = async ({ privateKey }) => {
-  const provider = new InfuraProvider('rinkeby', {
-    projectId: '31ca56ac9df649e8a872c6e6b3c6c4b9',
-    projectSecret: 'e0bf386ec6dc411580520f78fa11631f',
-  });
-  const wallet = new Wallet(privateKey, provider);
+type Params = {
+  readonly privateKey: string;
+};
+
+export const getWalletBalance = async ({ privateKey }: Params) => {
+  const wallet = getWallet(privateKey);
 
   try {
     const walletBalance = await wallet.getBalance();

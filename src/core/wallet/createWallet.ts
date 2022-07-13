@@ -1,12 +1,11 @@
 import 'react-native-get-random-values';
 import '@ethersproject/shims';
 import { Wallet } from '@ethersproject/wallet';
-import { InfuraProvider } from '@ethersproject/providers';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { generateMnemonic } from 'bip39';
 
 import { privateKeyFromMnemonic } from './privateKeyFromMnemonic';
-import { getAllWallets } from './getAllWallets';
+import { storage } from '../storage/storage';
+import { getWallet } from './getWallet';
 
 export type EthereumPrivateKey = string;
 type EthereumMnemonic = string;
@@ -66,48 +65,20 @@ export const createWallet = async (
   try {
     console.log({ mnemonic });
     const privateKey = await privateKeyFromMnemonic(mnemonic);
-    const provider = new InfuraProvider(
-      'rinkeby',
-      '31ca56ac9df649e8a872c6e6b3c6c4b9'
-    );
-    const wallet = new Wallet(privateKey, provider);
+    const wallet = getWallet(privateKey);
 
     const walletAddress = wallet.address;
 
-    // eslint-disable-next-line prefer-const
-    let allWallets = await getAllWallets();
-
     const id = `wallet_${Date.now()}`;
 
-    await AsyncStorage.setItem('WalletMnemonic', mnemonic);
-    console.log('[createWallet] - saved seed phrase');
+    storage.set('wallet.mnemonic', mnemonic);
+    console.log('[createWallet] - saved mnemonic');
 
-    await AsyncStorage.setItem('WalletAddress', walletAddress);
+    storage.set('wallet.address', walletAddress);
     console.log('[createWallet] - saved address');
 
-    await AsyncStorage.setItem('WalletPrivateKey', privateKey);
+    storage.set('wallet.private-key', privateKey);
     console.log('[createWallet] - saved private key');
-
-    allWallets.push({
-      addresses: [
-        { address: walletAddress, index: 0, label: '', visible: true },
-      ],
-      backedUp: false,
-      id,
-      name: DEFAULT_WALLET_NAME,
-      primary: true,
-      mnemonic, // remove later
-      privateKey, // remove later
-    });
-
-    await AsyncStorage.setItem('allWallets', JSON.stringify(allWallets));
-    console.log('[createWallet] - save allWallets');
-
-    const resultAllWallets = await AsyncStorage.getAllKeys();
-    console.log(
-      '[resultAllWallets] - AsyncStorage allWallets',
-      resultAllWallets
-    );
 
     return wallet;
   } catch (error) {
