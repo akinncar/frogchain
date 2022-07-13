@@ -54,8 +54,6 @@ function BottomTabs() {
 export default function Routes() {
   const [walletPrivateKey] = useMMKVString('wallet.private-key');
   const wallet = getWallet(walletPrivateKey);
-  console.log({ walletPrivateKey });
-  console.log({ wallet });
 
   return (
     <NavigationContainer>

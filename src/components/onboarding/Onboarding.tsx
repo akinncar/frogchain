@@ -15,6 +15,7 @@ export function Onboarding({ navigation }): JSX.Element {
       seedPhrase: null,
       network: null,
     });
+    setIsLoading(false);
     console.log({ newWallet });
     return navigation.navigate('Main');
   }
