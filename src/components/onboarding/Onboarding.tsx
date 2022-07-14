@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
+import type { StackNavigationProp } from '@react-navigation/stack';
 
 import { tw } from '../ui/tailwind';
 import { Button } from '../ui/button/Button';
 import { walletInit } from '../../core/wallet/walletInit';
 import Logo from '../ui/svg/Logo';
+import type { RootStackParamList } from '../../routes';
+import { useNavigation } from '@react-navigation/native';
 
-export function Onboarding({ navigation }): JSX.Element {
+export function Onboarding(): JSX.Element {
+  const navigation =
+    useNavigation<StackNavigationProp<RootStackParamList, 'Onboarding'>>();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleCreateWallet() {

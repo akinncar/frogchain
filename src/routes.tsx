@@ -4,12 +4,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useMMKVString } from 'react-native-mmkv';
 
+import { getWallet } from './core/wallet/getWallet';
+
 import { Onboarding } from './components/onboarding/Onboarding';
 import { Home } from './components/home/Home';
 import { Wallet } from './components/wallet/Wallet';
-import { getWallet } from './core/wallet/getWallet';
+import { Asset } from './components/asset/Asset';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  readonly Onboarding: undefined;
+  readonly Main: undefined;
+  readonly Asset: { readonly ticker: string };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
 function BottomTabs() {
@@ -62,7 +70,8 @@ export default function Routes() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />
-        <Tab.Screen name="Main" component={BottomTabs} />
+        <Stack.Screen name="Main" component={BottomTabs} />
+        <Stack.Screen name="Asset" component={Asset} />
       </Stack.Navigator>
     </NavigationContainer>
   );

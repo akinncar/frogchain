@@ -300,6 +300,35 @@ PODS:
     - RCTTypeSafety
     - React
     - ReactCommon/turbomodule/core
+  - react-native-skia (0.1.136):
+    - React
+    - React-callinvoker
+    - React-Core
+    - react-native-skia/Api (= 0.1.136)
+    - react-native-skia/Jsi (= 0.1.136)
+    - react-native-skia/RNSkia (= 0.1.136)
+    - react-native-skia/SkiaHeaders (= 0.1.136)
+    - react-native-skia/Utils (= 0.1.136)
+  - react-native-skia/Api (0.1.136):
+    - React
+    - React-callinvoker
+    - React-Core
+  - react-native-skia/Jsi (0.1.136):
+    - React
+    - React-callinvoker
+    - React-Core
+  - react-native-skia/RNSkia (0.1.136):
+    - React
+    - React-callinvoker
+    - React-Core
+  - react-native-skia/SkiaHeaders (0.1.136):
+    - React
+    - React-callinvoker
+    - React-Core
+  - react-native-skia/Utils (0.1.136):
+    - React
+    - React-callinvoker
+    - React-Core
   - react-native-tcp-socket (5.6.2):
     - CocoaAsyncSocket
     - React-Core
@@ -376,6 +405,33 @@ PODS:
     - React-Core
   - RNOS (1.2.6):
     - React
+  - RNReanimated (2.9.1):
+    - DoubleConversion
+    - FBLazyVector
+    - FBReactNativeSpec
+    - glog
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
+    - React-callinvoker
+    - React-Core
+    - React-Core/DevSupport
+    - React-Core/RCTWebSocket
+    - React-CoreModules
+    - React-cxxreact
+    - React-jsi
+    - React-jsiexecutor
+    - React-jsinspector
+    - React-RCTActionSheet
+    - React-RCTAnimation
+    - React-RCTBlob
+    - React-RCTImage
+    - React-RCTLinking
+    - React-RCTNetwork
+    - React-RCTSettings
+    - React-RCTText
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
@@ -434,6 +490,7 @@ DEPENDENCIES:
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - react-native-tcp-socket (from `../node_modules/react-native-tcp-socket`)
   - react-native-udp (from `../node_modules/react-native-udp`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -450,6 +507,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNOS (from `../node_modules/react-native-os`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -521,6 +579,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-randombytes"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-skia:
+    :path: "../node_modules/@shopify/react-native-skia"
   react-native-tcp-socket:
     :path: "../node_modules/react-native-tcp-socket"
   react-native-udp:
@@ -553,6 +613,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNOS:
     :path: "../node_modules/react-native-os"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -599,6 +661,7 @@ SPEC CHECKSUMS:
   react-native-mmkv: 1265a348a4711097ba29c8bcefd5971f48220f2b
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
+  react-native-skia: 7f1c17bb3ed15c951305d6c924df917899d21613
   react-native-tcp-socket: c1b7297619616b4c9caae6889bcb0aba78086989
   react-native-udp: 8864b1211857e9d8224ae5cbaf8580970fb99de1
   React-perflogger: c9161ff0f1c769993cd11d2751e4331ff4ceb7cd
@@ -615,12 +678,13 @@ SPEC CHECKSUMS:
   ReactCommon: e30ec17dfb1d4c4f3419eac254350d6abca6d5a2
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
+  RNReanimated: 2cf7451318bb9cc430abeec8d67693f9cf4e039c
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 43fbdbaabb770dbb7976a27054ce7659ec0fc704
+PODFILE CHECKSUM: 6b72c4119207d86a7ce98be60039cc470956a60d
 
 COCOAPODS: 1.11.3

@@ -1,13 +1,18 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { tw } from '../ui/tailwind';
 import assetIcons from '../ui/svg/asset-icon';
 
 export function AssetRow({ ticker, price }): JSX.Element {
+  const navigation = useNavigation();
+
   const Icon = assetIcons[ticker];
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Asset', { ticker })}
       style={tw`p-4 my-2 flex-row rounded-lg items-center justify-between bg-background`}
     >
       <>
@@ -20,6 +25,6 @@ export function AssetRow({ ticker, price }): JSX.Element {
           currency: 'USD',
         })}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
