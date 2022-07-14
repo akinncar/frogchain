@@ -2,6 +2,6 @@ import Btc from './Btc';
 import Eth from './Eth';
 import Ftm from './Ftm';
 
-const icons = { BTC: Btc, ETH: Eth, FTM: Ftm };
+const icons = { bitcoin: Btc, ethereum: Eth, fantom: Ftm };
 
 export default icons;

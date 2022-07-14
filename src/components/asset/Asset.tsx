@@ -4,12 +4,15 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { LineGraph } from 'react-native-graph';
 
 import { tw } from '../ui/tailwind';
+import { assets } from '../../constants/assets';
 
 import type { RootStackParamList } from '../../routes';
 
 export function Asset(): JSX.Element {
   const route = useRoute<RouteProp<RootStackParamList, 'Asset'>>();
-  const { ticker } = route.params;
+  const { assetName } = route.params;
+
+  const asset = assets[assetName];
 
   const [graphData, setGraphData] = useState([]);
 
@@ -23,7 +26,7 @@ export function Asset(): JSX.Element {
 
   async function loadPriceHistory1d() {
     const response = await fetch(
-      `https://api.binance.com/api/v3/klines?symbol=${ticker}USDT&interval=3m&limit=480`
+      `https://api.binance.com/api/v3/klines?symbol=${asset.ticker}USDT&interval=3m&limit=480`
     );
 
     // 8h &interval=1m&limit=480
@@ -57,13 +60,8 @@ export function Asset(): JSX.Element {
   }
 
   return (
-    <View
-      style={[
-        StyleSheet.absoluteFill,
-        tw`items-center justify-center bg-black px-4`,
-      ]}
-    >
-      <Text style={tw`text-white text-right font-bold`}>{ticker}</Text>
+    <View style={tw`flex-1 items-center justify-center bg-black px-4`}>
+      <Text style={tw`text-white text-right font-bold`}>{asset.ticker}</Text>
       <LineGraph
         points={graphData}
         color="#A657E4"

@@ -14,7 +14,7 @@ import { Asset } from './components/asset/Asset';
 export type RootStackParamList = {
   readonly Onboarding: undefined;
   readonly Main: undefined;
-  readonly Asset: { readonly ticker: string };
+  readonly Asset: { readonly assetName: string };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
