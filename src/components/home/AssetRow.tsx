@@ -37,7 +37,7 @@ export function AssetRow({ assetName }): JSX.Element {
     >
       <>
         <Icon />
-        <View style={tw`direction-column content-center`}>
+        <View style={tw`content-center`}>
           <Text style={tw`text-white pl-4 font-bold`}>{asset.ticker}</Text>
           <Text style={tw`text-white pl-4 opacity-50	pt-1`}>{asset.label}</Text>
         </View>

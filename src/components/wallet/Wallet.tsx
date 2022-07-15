@@ -10,21 +10,21 @@ import { storage } from '../../core/storage/storage';
 import { getWallet } from '../../core/wallet/getWallet';
 
 export function Wallet({ navigation }): JSX.Element {
-  const [walletPrivateKey] = useMMKVString('wallet.private-key');
-  const wallet = getWallet(walletPrivateKey);
+  const [privateKey] = useMMKVString('wallet.private-key');
+  const wallet = getWallet({ privateKey });
 
   const [balance, setBalance] = React.useState<string | undefined>(undefined);
 
   async function loadWalletBalance() {
     const walletBalance = await getWalletBalance({
-      privateKey: walletPrivateKey,
+      privateKey,
     });
     setBalance(walletBalance);
   }
 
   async function handleSendTransaction() {
     const transactionResult = await sendTransaction({
-      privateKey: walletPrivateKey,
+      privateKey,
     });
     console.log({ transactionResult });
   }

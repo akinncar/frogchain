@@ -60,8 +60,8 @@ function BottomTabs() {
 }
 
 export default function Routes() {
-  const [walletPrivateKey] = useMMKVString('wallet.private-key');
-  const wallet = getWallet(walletPrivateKey);
+  const [privateKey] = useMMKVString('wallet.private-key');
+  const wallet = getWallet({ privateKey });
 
   return (
     <NavigationContainer>

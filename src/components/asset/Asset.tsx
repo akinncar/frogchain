@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { LineGraph } from 'react-native-graph';
+import { useMMKVString } from 'react-native-mmkv';
 
 import { tw } from '../ui/tailwind';
 import { assets } from '../../constants/assets';
 
 import type { RootStackParamList } from '../../routes';
+import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 
 export function Asset(): JSX.Element {
   const route = useRoute<RouteProp<RootStackParamList, 'Asset'>>();
   const { assetName } = route.params;
 
-  const asset = assets[assetName];
+  const [privateKey] = useMMKVString('wallet.private-key');
 
   const [graphData, setGraphData] = useState([]);
+  const [balance, setBalance] = React.useState<string | undefined>(undefined);
 
-  const today = new Date(Date.now());
-  const yesterday = new Date(Date.now() - 3600 * 1000 * 24);
-  console.log({ today: today.getTime(), yesterday: yesterday.getTime() });
+  const asset = assets[assetName];
+
+  async function loadWalletBalance() {
+    const walletBalance = await getWalletBalance({
+      privateKey,
+      assetName,
+    });
+    setBalance(walletBalance);
+  }
 
   useEffect(() => {
     loadPriceHistory1d();
+    loadWalletBalance();
   }, []);
 
   async function loadPriceHistory1d() {
@@ -61,13 +71,18 @@ export function Asset(): JSX.Element {
 
   return (
     <View style={tw`flex-1 items-center justify-center bg-black px-4`}>
-      <Text style={tw`text-white text-right font-bold`}>{asset.ticker}</Text>
+      <Text style={tw`text-white text-right font-bold p-4`}>
+        {asset.ticker}
+      </Text>
       <LineGraph
         points={graphData}
         color="#A657E4"
         animated={false}
         style={tw`h-40 w-full`}
       />
+      <Text style={tw`text-white text-center p-4`}>
+        Wallet Balance: {balance}
+      </Text>
     </View>
   );
 }

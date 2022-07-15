@@ -65,7 +65,7 @@ export const createWallet = async (
   try {
     console.log({ mnemonic });
     const privateKey = await privateKeyFromMnemonic(mnemonic);
-    const wallet = getWallet(privateKey);
+    const wallet = getWallet({ privateKey });
 
     const walletAddress = wallet.address;
 
