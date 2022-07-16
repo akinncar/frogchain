@@ -6,9 +6,10 @@ import { useMMKVString } from 'react-native-mmkv';
 
 import { tw } from '../ui/tailwind';
 import { assets } from '../../constants/assets';
+import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 
 import type { RootStackParamList } from '../../routes';
-import { getWalletBalance } from '../../core/wallet/getWalletBalance';
+import { RoundedButton } from '../ui/roundedButton/RoundedButton';
 
 export function Asset(): JSX.Element {
   const route = useRoute<RouteProp<RootStackParamList, 'Asset'>>();
@@ -83,6 +84,12 @@ export function Asset(): JSX.Element {
       <Text style={tw`text-white text-center p-4`}>
         Wallet Balance: {balance}
       </Text>
+      <View style={tw`flex-row justify-evenly w-full`}>
+        <RoundedButton icon="Buy" onPress={() => {}} />
+        <RoundedButton icon="Send" onPress={() => {}} />
+        <RoundedButton icon="Receive" onPress={() => {}} />
+        <RoundedButton icon="Convert" onPress={() => {}} />
+      </View>
     </View>
   );
 }

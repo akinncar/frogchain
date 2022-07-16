@@ -31,7 +31,7 @@ export function Onboarding(): JSX.Element {
       <ImageBackground
         source={require('../ui/png/background.png')}
         resizeMode="cover"
-        style={StyleSheet.absoluteFill}
+        style={[StyleSheet.absoluteFill, tw`opacity-50`]}
       />
 
       <SafeAreaView

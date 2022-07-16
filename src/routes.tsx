@@ -10,6 +10,7 @@ import { Onboarding } from './components/onboarding/Onboarding';
 import { Home } from './components/home/Home';
 import { Wallet } from './components/wallet/Wallet';
 import { Asset } from './components/asset/Asset';
+import * as Icons from './components/ui/svg/icons/rn';
 
 export type RootStackParamList = {
   readonly Onboarding: undefined;
@@ -25,8 +26,9 @@ function BottomTabs() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: '#000000',
+          backgroundColor: '#181a27',
         },
+        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
@@ -34,12 +36,15 @@ function BottomTabs() {
         component={Home}
         options={{
           headerStyle: {
-            backgroundColor: '#000000',
+            backgroundColor: '#181a27',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          tabBarIcon: ({ color, size }) => (
+            <Icons.Home name="account" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
@@ -47,12 +52,15 @@ function BottomTabs() {
         component={Wallet}
         options={{
           headerStyle: {
-            backgroundColor: '#000000',
+            backgroundColor: '#181a27',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          tabBarIcon: ({ color, size }) => (
+            <Icons.Frogchain name="account" color={color} size={size} />
+          ),
         }}
       />
     </Tab.Navigator>

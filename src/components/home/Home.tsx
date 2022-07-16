@@ -10,11 +10,11 @@ import { FlatList } from 'react-native-gesture-handler';
 export function Home(): JSX.Element {
   return (
     <View style={tw`flex-1 justify-center bg-black px-4`}>
-      {/* <ImageBackground
+      <ImageBackground
         source={require('../ui/png/background.png')}
         resizeMode="cover"
-        style={StyleSheet.absoluteFill}
-  /> */}
+        style={[StyleSheet.absoluteFill, tw`opacity-50`]}
+      />
       <FlatList
         data={Object.values(assets)}
         keyExtractor={item => item.name}

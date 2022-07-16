@@ -8,7 +8,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "postinstall": "rn-nodeify --install fs,dgram,stream,process,crypto,path,console --hack",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "svg-convert": "npx @svgr/cli --native --out-dir ./src/components/ui/svg/icons/rn -- ./src/components/ui/svg/icons/pure"
   },
   "dependencies": {
     "@ethersproject/abstract-provider": "^5.4.0",

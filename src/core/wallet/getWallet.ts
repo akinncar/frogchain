@@ -1,9 +1,5 @@
 import { Wallet } from '@ethersproject/wallet';
-import {
-  EtherscanProvider,
-  InfuraProvider,
-  JsonRpcProvider,
-} from '@ethersproject/providers';
+import { InfuraProvider, JsonRpcProvider } from '@ethersproject/providers';
 import { assets } from '../../constants/assets';
 
 export function getWallet<T>({
