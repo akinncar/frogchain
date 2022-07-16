@@ -10,12 +10,15 @@ import { Onboarding } from './components/onboarding/Onboarding';
 import { Home } from './components/home/Home';
 import { Wallet } from './components/wallet/Wallet';
 import { Asset } from './components/asset/Asset';
+import { Receive } from './components/receive/Receive';
+
 import * as Icons from './components/ui/svg/icons/rn';
 
 export type RootStackParamList = {
   readonly Onboarding: undefined;
   readonly Main: undefined;
   readonly Asset: { readonly assetName: string };
+  readonly Receive: { readonly assetName: string };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -80,6 +83,7 @@ export default function Routes() {
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Main" component={BottomTabs} />
         <Stack.Screen name="Asset" component={Asset} />
+        <Stack.Screen name="Receive" component={Receive} />
       </Stack.Navigator>
     </NavigationContainer>
   );

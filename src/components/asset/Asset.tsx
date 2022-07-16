@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { LineGraph } from 'react-native-graph';
 import { useMMKVString } from 'react-native-mmkv';
 
@@ -12,6 +12,7 @@ import type { RootStackParamList } from '../../routes';
 import { RoundedButton } from '../ui/roundedButton/RoundedButton';
 
 export function Asset(): JSX.Element {
+  const navigation = useNavigation();
   const route = useRoute<RouteProp<RootStackParamList, 'Asset'>>();
   const { assetName } = route.params;
 
@@ -75,21 +76,27 @@ export function Asset(): JSX.Element {
       <Text style={tw`text-white text-right font-bold p-4`}>
         {asset.ticker}
       </Text>
+
       <LineGraph
         points={graphData}
         color="#A657E4"
         animated={false}
         style={tw`h-40 w-full`}
       />
-      <Text style={tw`text-white text-center p-4`}>
-        Wallet Balance: {balance}
-      </Text>
-      <View style={tw`flex-row justify-evenly w-full`}>
-        <RoundedButton icon="Buy" onPress={() => {}} />
-        <RoundedButton icon="Send" onPress={() => {}} />
-        <RoundedButton icon="Receive" onPress={() => {}} />
-        <RoundedButton icon="Convert" onPress={() => {}} />
+      <View style={tw`flex-row justify-between w-full py-4`}>
+        <RoundedButton icon="Buy" label="Buy" onPress={() => {}} />
+        <RoundedButton icon="Send" label="Send" onPress={() => {}} />
+        <RoundedButton
+          icon="Receive"
+          label="Receive"
+          onPress={() => navigation.navigate('Receive', { assetName })}
+        />
+        <RoundedButton icon="Convert" label="Convert" onPress={() => {}} />
       </View>
+
+      <Text style={tw`text-white text-center px-4`}>
+        {balance && `Balance: ${balance}`}
+      </Text>
     </View>
   );
 }
