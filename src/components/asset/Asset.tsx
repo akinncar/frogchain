@@ -10,6 +10,7 @@ import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 
 import type { RootStackParamList } from '../../routes';
 import { RoundedButton } from '../ui/roundedButton/RoundedButton';
+import { getTransactionHistory } from '../../core/wallet/getTransactionHistory';
 
 export function Asset(): JSX.Element {
   const navigation = useNavigation();
@@ -20,6 +21,7 @@ export function Asset(): JSX.Element {
 
   const [graphData, setGraphData] = useState([]);
   const [balance, setBalance] = React.useState<string | undefined>(undefined);
+  const [transactionHistory, setTransactionHistory] = React.useState<any>([]);
 
   const asset = assets[assetName];
 
@@ -31,9 +33,15 @@ export function Asset(): JSX.Element {
     setBalance(walletBalance);
   }
 
+  async function loadWalletTransactions() {
+    const walletTransactions = await getTransactionHistory({ privateKey });
+    setTransactionHistory(walletTransactions);
+  }
+
   useEffect(() => {
     loadPriceHistory1d();
     loadWalletBalance();
+    loadWalletTransactions();
   }, []);
 
   async function loadPriceHistory1d() {
