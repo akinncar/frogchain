@@ -20,7 +20,7 @@ export function RoundedButton({
       <TouchableOpacity
         style={tw.style(
           'items-center justify-center rounded-full h-14 w-14',
-          isPrimary ? 'bg-primary' : 'bg-black',
+          isPrimary && 'bg-primary',
           isPrimary ? 'border-0' : 'border-2 border-primary',
           style
         )}

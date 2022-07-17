@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useMMKVString } from 'react-native-mmkv';
@@ -28,23 +28,25 @@ function BottomTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
+        headerShown: false,
         tabBarStyle: {
+          position: 'absolute',
           backgroundColor: '#181a27',
+          borderTopColor: '#181a27',
+          // borderTopWidth: 0
+          borderTopRightRadius: 16,
+          borderTopLeftRadius: 16,
+          marginHorizontal: 16,
         },
+
         tabBarShowLabel: false,
+        tabBarInactiveTintColor: '#FFF',
       }}
     >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          headerStyle: {
-            backgroundColor: '#181a27',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
           tabBarIcon: ({ color, size }) => (
             <Icons.Home name="account" color={color} size={size} />
           ),
@@ -54,13 +56,6 @@ function BottomTabs() {
         name="Wallet"
         component={Wallet}
         options={{
-          headerStyle: {
-            backgroundColor: '#181a27',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
           tabBarIcon: ({ color, size }) => (
             <Icons.Frogchain name="account" color={color} size={size} />
           ),
@@ -70,12 +65,20 @@ function BottomTabs() {
   );
 }
 
+const Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#181A27',
+  },
+};
+
 export default function Routes() {
   const [privateKey] = useMMKVString('wallet.private-key');
   const wallet = getWallet({ privateKey });
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={Theme}>
       <Stack.Navigator
         initialRouteName={wallet ? 'Main' : 'Onboarding'}
         screenOptions={{ headerShown: false, detachPreviousScreen: false }}

@@ -1,12 +1,23 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useMMKVString } from 'react-native-mmkv';
-import { formatBigNumbertToEther } from '../../core/numberUtils/formatBigNumbertToEther';
-import { getWallet } from '../../core/wallet/getWallet';
 
 import { tw } from '../ui/tailwind';
+import { formatToCryptoValue } from '../../core/numberUtils/formatToCryptoValue';
+import { getWallet } from '../../core/wallet/getWallet';
 
-export function Transaction({ transaction, assetName }) {
+import * as Icons from '../ui/svg/icons/rn';
+
+export function Transaction({
+  transaction,
+  assetName,
+  style,
+  ...props
+}: {
+  transaction: any;
+  assetName: string;
+  style?: any;
+}) {
   const [privateKey] = useMMKVString('wallet.private-key');
 
   const wallet = getWallet({
@@ -17,10 +28,21 @@ export function Transaction({ transaction, assetName }) {
   const isReceived = transaction.to === wallet.address;
 
   return (
-    <View style={tw`justify-between  flex-row p-4 rounded-lg bg-background`}>
-      <Text style={tw`text-white`}>{isReceived ? 'Received' : 'Sent'}</Text>
+    <View
+      style={tw.style(
+        'justify-between flex-row px-4 py-5 rounded-lg bg-background items-center',
+        style
+      )}
+      {...props}
+    >
+      <View style={tw`flex-row items-center`}>
+        {isReceived ? <Icons.Receive /> : <Icons.Send />}
+        <Text style={tw`text-white pl-2`}>
+          {isReceived ? 'Received' : 'Sent'}
+        </Text>
+      </View>
       <Text style={tw`text-white`}>
-        {formatBigNumbertToEther(transaction.value)}
+        {formatToCryptoValue({ value: transaction.value, assetName })}
       </Text>
     </View>
   );

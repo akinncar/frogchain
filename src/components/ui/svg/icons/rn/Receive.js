@@ -1,10 +1,11 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-const SvgReceive = props => (
+const SvgReceive = ({ size = 24, ...props }) => (
   <Svg
-    width={25}
-    height={24}
+    width={size}
+    height={size}
+    viewBox={`0 0 ${size} ${size}`}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}

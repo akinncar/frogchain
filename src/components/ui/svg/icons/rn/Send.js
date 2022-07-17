@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-const SvgSend = props => (
+const SvgSend = ({ size = 24, ...props }) => (
   <Svg
-    width={24}
-    height={24}
+    width={size}
+    height={size}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}

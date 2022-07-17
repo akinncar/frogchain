@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, Text, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useMMKVString } from 'react-native-mmkv';
+import { BigNumber } from 'ethers';
 
 import { tw } from '../ui/tailwind';
 import { assets } from '../../constants/assets';
@@ -9,11 +10,10 @@ import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 import type { RootStackParamList } from '../../routes';
 import { RoundedButton } from '../ui/roundedButton/RoundedButton';
 import { getTransactionHistory } from '../../core/wallet/getTransactionHistory';
-import { formatBigNumbertToEther } from '../../core/numberUtils/formatBigNumbertToEther';
+import { formatToCryptoValue } from '../../core/numberUtils/formatToCryptoValue';
 
 import { Chart } from './Chart';
 import { Transaction } from './Transaction';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ChartSwitcher } from './ChartSwitcher';
 
 const GRAPH_INTERVAL_8H_PARAM = '&interval=1m&limit=480';
@@ -36,7 +36,9 @@ export function Asset(): JSX.Element {
   const [graphInterval, setGraphInterval] = useState<GraphIntervalType>(
     GRAPH_INTERVAL_1D_PARAM
   );
-  const [balance, setBalance] = React.useState<string | undefined>(undefined);
+  const [balance, setBalance] = React.useState<BigNumber | undefined>(
+    undefined
+  );
   const [transactionHistory, setTransactionHistory] = React.useState<any>([]);
 
   const asset = assets[assetName];
@@ -96,7 +98,7 @@ export function Asset(): JSX.Element {
   }
 
   return (
-    <View style={tw`flex-1 items-center justify-center bg-black px-4`}>
+    <View style={tw`flex-1 items-center justify-center px-4`}>
       <FlatList
         style={tw`w-full`}
         bounces={false}
@@ -119,27 +121,33 @@ export function Asset(): JSX.Element {
                 onPress={() => {}}
               />
             </View>
-            <Chart graphData={graphData} />
-            <View style={tw`flex-row justify-between w-full py-4`}>
-              <ChartSwitcher
-                label="8H"
-                enabled={graphInterval === GRAPH_INTERVAL_8H_PARAM}
-                onPress={() => setGraphInterval(GRAPH_INTERVAL_8H_PARAM)}
-              />
-              <ChartSwitcher
-                label="1D"
-                enabled={graphInterval === GRAPH_INTERVAL_1D_PARAM}
-                onPress={() => setGraphInterval(GRAPH_INTERVAL_1D_PARAM)}
-              />
-              <ChartSwitcher
-                label="7D"
-                enabled={graphInterval === GRAPH_INTERVAL_7D_PARAM}
-                onPress={() => setGraphInterval(GRAPH_INTERVAL_7D_PARAM)}
-              />
+            <View style={tw`w-full rounded-lg border-2 border-background mb-4`}>
+              <Chart graphData={graphData} />
+              <View style={tw`flex-row justify-between w-full p-4`}>
+                <ChartSwitcher
+                  label="8H"
+                  enabled={graphInterval === GRAPH_INTERVAL_8H_PARAM}
+                  onPress={() => setGraphInterval(GRAPH_INTERVAL_8H_PARAM)}
+                />
+                <ChartSwitcher
+                  label="1D"
+                  enabled={graphInterval === GRAPH_INTERVAL_1D_PARAM}
+                  onPress={() => setGraphInterval(GRAPH_INTERVAL_1D_PARAM)}
+                />
+                <ChartSwitcher
+                  label="7D"
+                  enabled={graphInterval === GRAPH_INTERVAL_7D_PARAM}
+                  onPress={() => setGraphInterval(GRAPH_INTERVAL_7D_PARAM)}
+                />
+              </View>
             </View>
 
             <Text style={tw`text-white text-center px-4`}>
-              {balance && `Balance: ${formatBigNumbertToEther(balance)}`}
+              {balance &&
+                `Balance: ${formatToCryptoValue({
+                  value: balance,
+                  assetName,
+                })}`}
             </Text>
           </SafeAreaView>
         }

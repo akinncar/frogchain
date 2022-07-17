@@ -21,7 +21,7 @@ export function Receive(): JSX.Element {
   });
 
   return (
-    <View style={tw`flex-1 items-center justify-center bg-black px-4`}>
+    <View style={tw`flex-1 items-center justify-center px-4`}>
       <QRCode size={170} value={wallet.address} />
       <Text style={tw`text-white text-center p-8`}>{wallet.address}</Text>
     </View>

@@ -17,7 +17,7 @@ export function Button({
     <TouchableOpacity
       style={tw.style(
         'justify-center rounded-full h-14 w-full',
-        isPrimary ? 'bg-primary' : 'bg-black',
+        isPrimary && 'bg-primary',
         isPrimary ? 'border-0' : 'border-2 border-primary',
         style
       )}

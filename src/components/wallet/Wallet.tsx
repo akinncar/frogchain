@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { useMMKVString } from 'react-native-mmkv';
 
 import { tw } from '../ui/tailwind';
@@ -8,7 +8,7 @@ import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 import { sendTransaction } from '../../core/wallet/sendTransaction';
 import { storage } from '../../core/storage/storage';
 import { getWallet } from '../../core/wallet/getWallet';
-import { formatBigNumbertToEther } from '../../core/numberUtils/formatBigNumbertToEther';
+import { formatToCryptoValue } from '../../core/numberUtils/formatToCryptoValue';
 
 export function Wallet({ navigation }): JSX.Element {
   const [privateKey] = useMMKVString('wallet.private-key');
@@ -41,14 +41,16 @@ export function Wallet({ navigation }): JSX.Element {
 
   return (
     <View
-      style={[
-        StyleSheet.absoluteFill,
-        tw`flex-1 items-center justify-center bg-black`,
-      ]}
+      style={[StyleSheet.absoluteFill, tw`flex-1 items-center justify-center`]}
     >
+      <ImageBackground
+        source={require('../ui/png/background.png')}
+        resizeMode="cover"
+        style={StyleSheet.absoluteFill}
+      />
       <Text style={tw`text-white text-center pb-4`}>{wallet?.address}</Text>
       <Text style={tw`text-white text-center pb-4`}>
-        Wallet Balance: {formatBigNumbertToEther(balance)}
+        Wallet Balance: {formatToCryptoValue(balance)}
       </Text>
       <Button title="Send Transaction" onPress={handleSendTransaction} />
       <Button title="Delete all wallets" onPress={handleDeleteAllWallets} />

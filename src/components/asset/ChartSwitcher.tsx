@@ -16,7 +16,7 @@ export function ChartSwitcher({
     <TouchableOpacity
       style={tw.style(
         'items-center justify-center rounded-full h-8 w-14',
-        enabled ? 'bg-primary' : 'bg-black',
+        enabled && 'bg-primary',
         enabled ? 'border-0' : 'border-2 border-primary'
       )}
       onPress={onPress}
