@@ -8,6 +8,7 @@ import { getWalletBalance } from '../../core/wallet/getWalletBalance';
 import { sendTransaction } from '../../core/wallet/sendTransaction';
 import { storage } from '../../core/storage/storage';
 import { getWallet } from '../../core/wallet/getWallet';
+import { formatBigNumbertToEther } from '../../core/numberUtils/formatBigNumbertToEther';
 
 export function Wallet({ navigation }): JSX.Element {
   const [privateKey] = useMMKVString('wallet.private-key');
@@ -47,7 +48,7 @@ export function Wallet({ navigation }): JSX.Element {
     >
       <Text style={tw`text-white text-center pb-4`}>{wallet?.address}</Text>
       <Text style={tw`text-white text-center pb-4`}>
-        Wallet Balance: {balance}
+        Wallet Balance: {formatBigNumbertToEther(balance)}
       </Text>
       <Button title="Send Transaction" onPress={handleSendTransaction} />
       <Button title="Delete all wallets" onPress={handleDeleteAllWallets} />

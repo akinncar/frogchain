@@ -67,6 +67,7 @@
     "functional/immutable-data": "off",
     "functional/prefer-type-literal": "off",
     "functional/no-return-void": "off",
+    "functional/prefer-readonly-type" : "off",
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
     "react-native/no-color-literals": "off",

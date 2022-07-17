@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, SafeAreaView, Text, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { LineGraph } from 'react-native-graph';
 import { useMMKVString } from 'react-native-mmkv';
 
 import { tw } from '../ui/tailwind';
 import { assets } from '../../constants/assets';
 import { getWalletBalance } from '../../core/wallet/getWalletBalance';
-
 import type { RootStackParamList } from '../../routes';
 import { RoundedButton } from '../ui/roundedButton/RoundedButton';
 import { getTransactionHistory } from '../../core/wallet/getTransactionHistory';
+import { formatBigNumbertToEther } from '../../core/numberUtils/formatBigNumbertToEther';
+
+import { Chart } from './Chart';
+import { Transaction } from './Transaction';
 
 export function Asset(): JSX.Element {
   const navigation = useNavigation();
@@ -81,30 +83,40 @@ export function Asset(): JSX.Element {
 
   return (
     <View style={tw`flex-1 items-center justify-center bg-black px-4`}>
-      <Text style={tw`text-white text-right font-bold p-4`}>
-        {asset.ticker}
-      </Text>
-
-      <LineGraph
-        points={graphData}
-        color="#A657E4"
-        animated={false}
-        style={tw`h-40 w-full`}
+      <FlatList
+        style={tw`w-full`}
+        bounces={false}
+        ListHeaderComponent={() => (
+          <SafeAreaView style={tw`w-full items-center justify-center mb-4`}>
+            <Text style={tw`text-white text-right font-bold p-4`}>
+              {asset.ticker}
+            </Text>
+            <Chart graphData={graphData} />
+            <View style={tw`flex-row justify-between w-full py-4`}>
+              <RoundedButton icon="Buy" label="Buy" onPress={() => {}} />
+              <RoundedButton icon="Send" label="Send" onPress={() => {}} />
+              <RoundedButton
+                icon="Receive"
+                label="Receive"
+                onPress={() => navigation.navigate('Receive', { assetName })}
+              />
+              <RoundedButton
+                icon="Convert"
+                label="Convert"
+                onPress={() => {}}
+              />
+            </View>
+            <Text style={tw`text-white text-center px-4`}>
+              {balance && `Balance: ${formatBigNumbertToEther(balance)}`}
+            </Text>
+          </SafeAreaView>
+        )}
+        ItemSeparatorComponent={() => <View style={tw`h-4`} />}
+        data={transactionHistory}
+        renderItem={({ item: transaction }) => (
+          <Transaction transaction={transaction} assetName={assetName} />
+        )}
       />
-      <View style={tw`flex-row justify-between w-full py-4`}>
-        <RoundedButton icon="Buy" label="Buy" onPress={() => {}} />
-        <RoundedButton icon="Send" label="Send" onPress={() => {}} />
-        <RoundedButton
-          icon="Receive"
-          label="Receive"
-          onPress={() => navigation.navigate('Receive', { assetName })}
-        />
-        <RoundedButton icon="Convert" label="Convert" onPress={() => {}} />
-      </View>
-
-      <Text style={tw`text-white text-center px-4`}>
-        {balance && `Balance: ${balance}`}
-      </Text>
     </View>
   );
 }
