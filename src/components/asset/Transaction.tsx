@@ -16,7 +16,6 @@ export function Transaction({ transaction, assetName }) {
 
   const isReceived = transaction.to === wallet.address;
 
-  console.log({ transaction });
   return (
     <View style={tw`justify-between  flex-row p-4 rounded-lg bg-background`}>
       <Text style={tw`text-white`}>{isReceived ? 'Received' : 'Sent'}</Text>

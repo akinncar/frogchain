@@ -13,6 +13,17 @@ import { formatBigNumbertToEther } from '../../core/numberUtils/formatBigNumbert
 
 import { Chart } from './Chart';
 import { Transaction } from './Transaction';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ChartSwitcher } from './ChartSwitcher';
+
+const GRAPH_INTERVAL_8H_PARAM = '&interval=1m&limit=480';
+const GRAPH_INTERVAL_1D_PARAM = '&interval=3m&limit=480';
+const GRAPH_INTERVAL_7D_PARAM = '&interval=30m&limit=336';
+
+type GraphIntervalType =
+  | typeof GRAPH_INTERVAL_8H_PARAM
+  | typeof GRAPH_INTERVAL_1D_PARAM
+  | typeof GRAPH_INTERVAL_7D_PARAM;
 
 export function Asset(): JSX.Element {
   const navigation = useNavigation();
@@ -22,6 +33,9 @@ export function Asset(): JSX.Element {
   const [privateKey] = useMMKVString('wallet.private-key');
 
   const [graphData, setGraphData] = useState([]);
+  const [graphInterval, setGraphInterval] = useState<GraphIntervalType>(
+    GRAPH_INTERVAL_1D_PARAM
+  );
   const [balance, setBalance] = React.useState<string | undefined>(undefined);
   const [transactionHistory, setTransactionHistory] = React.useState<any>([]);
 
@@ -41,19 +55,19 @@ export function Asset(): JSX.Element {
   }
 
   useEffect(() => {
-    loadPriceHistory1d();
+    loadPriceHistory(graphInterval);
     loadWalletBalance();
     loadWalletTransactions();
   }, []);
 
-  async function loadPriceHistory1d() {
-    const response = await fetch(
-      `https://api.binance.com/api/v3/klines?symbol=${asset.ticker}USDT&interval=3m&limit=480`
-    );
+  useEffect(() => {
+    loadPriceHistory(graphInterval);
+  }, [graphInterval]);
 
-    // 8h &interval=1m&limit=480
-    // 24h &interval=3m&limit=480
-    // 7d &interval=30m&limit=336
+  async function loadPriceHistory(interval: GraphIntervalType) {
+    const response = await fetch(
+      `https://api.binance.com/api/v3/klines?symbol=${asset.ticker}USDT${interval}`
+    );
 
     // [
     //   [
@@ -86,12 +100,11 @@ export function Asset(): JSX.Element {
       <FlatList
         style={tw`w-full`}
         bounces={false}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={
           <SafeAreaView style={tw`w-full items-center justify-center mb-4`}>
             <Text style={tw`text-white text-right font-bold p-4`}>
               {asset.ticker}
             </Text>
-            <Chart graphData={graphData} />
             <View style={tw`flex-row justify-between w-full py-4`}>
               <RoundedButton icon="Buy" label="Buy" onPress={() => {}} />
               <RoundedButton icon="Send" label="Send" onPress={() => {}} />
@@ -106,11 +119,30 @@ export function Asset(): JSX.Element {
                 onPress={() => {}}
               />
             </View>
+            <Chart graphData={graphData} />
+            <View style={tw`flex-row justify-between w-full py-4`}>
+              <ChartSwitcher
+                label="8H"
+                enabled={graphInterval === GRAPH_INTERVAL_8H_PARAM}
+                onPress={() => setGraphInterval(GRAPH_INTERVAL_8H_PARAM)}
+              />
+              <ChartSwitcher
+                label="1D"
+                enabled={graphInterval === GRAPH_INTERVAL_1D_PARAM}
+                onPress={() => setGraphInterval(GRAPH_INTERVAL_1D_PARAM)}
+              />
+              <ChartSwitcher
+                label="7D"
+                enabled={graphInterval === GRAPH_INTERVAL_7D_PARAM}
+                onPress={() => setGraphInterval(GRAPH_INTERVAL_7D_PARAM)}
+              />
+            </View>
+
             <Text style={tw`text-white text-center px-4`}>
               {balance && `Balance: ${formatBigNumbertToEther(balance)}`}
             </Text>
           </SafeAreaView>
-        )}
+        }
         ItemSeparatorComponent={() => <View style={tw`h-4`} />}
         data={transactionHistory}
         renderItem={({ item: transaction }) => (
