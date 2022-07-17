@@ -103,13 +103,17 @@ export function Asset(): JSX.Element {
         style={tw`w-full`}
         bounces={false}
         ListHeaderComponent={
-          <SafeAreaView style={tw`w-full items-center justify-center mb-4`}>
+          <SafeAreaView style={tw`w-full items-center justify-center`}>
             <Text style={tw`text-white text-right font-bold p-4`}>
-              {asset.ticker}
+              {asset.label} ({asset.ticker})
             </Text>
             <View style={tw`flex-row justify-between w-full py-4`}>
               <RoundedButton icon="Buy" label="Buy" onPress={() => {}} />
-              <RoundedButton icon="Send" label="Send" onPress={() => {}} />
+              <RoundedButton
+                icon="Send"
+                label="Send"
+                onPress={() => navigation.navigate('Send', { assetName })}
+              />
               <RoundedButton
                 icon="Receive"
                 label="Receive"
@@ -121,9 +125,18 @@ export function Asset(): JSX.Element {
                 onPress={() => {}}
               />
             </View>
-            <View style={tw`w-full rounded-lg border-2 border-background mb-4`}>
+            <View style={tw`w-full rounded-lg border-2 border-background py-4`}>
+              <Text style={tw`text-white text-right px-4 pb-2`}>
+                {balance &&
+                  ` ${formatToCryptoValue({
+                    value: balance,
+                    assetName,
+                  })}`}
+              </Text>
               <Chart graphData={graphData} />
-              <View style={tw`flex-row justify-between w-full p-4`}>
+              <View
+                style={tw`flex-row justify-between w-full border-t-2 border-background p-4`}
+              >
                 <ChartSwitcher
                   label="8H"
                   enabled={graphInterval === GRAPH_INTERVAL_8H_PARAM}
@@ -141,14 +154,6 @@ export function Asset(): JSX.Element {
                 />
               </View>
             </View>
-
-            <Text style={tw`text-white text-center px-4`}>
-              {balance &&
-                `Balance: ${formatToCryptoValue({
-                  value: balance,
-                  assetName,
-                })}`}
-            </Text>
           </SafeAreaView>
         }
         ItemSeparatorComponent={() => <View style={tw`h-4`} />}
