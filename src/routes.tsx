@@ -78,7 +78,8 @@ export default function Routes() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={wallet ? 'Main' : 'Onboarding'}
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false, detachPreviousScreen: false }}
+        detachInactiveScreens={true}
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Main" component={BottomTabs} />
