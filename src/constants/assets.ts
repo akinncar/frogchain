@@ -12,6 +12,7 @@ export const assets = {
     webSocketTicker: 'eth',
     chainId: 1,
     mainnet: 'https://mainnet.infura.io/v3/0c5409f01bb944168d3bb4b03a674f15',
+    apiUrl: 'https://api.etherscan.io/api',
   },
   fantom: {
     name: 'fantom',
@@ -20,5 +21,6 @@ export const assets = {
     webSocketTicker: 'ftm',
     chainId: 250,
     mainnet: 'https://rpc.ankr.com/fantom',
+    apiUrl: 'https://api.ftmscan.com/api',
   },
 };

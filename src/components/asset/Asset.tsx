@@ -52,8 +52,11 @@ export function Asset(): JSX.Element {
   }
 
   async function loadWalletTransactions() {
-    const walletTransactions = await getTransactionHistory({ privateKey });
-    setTransactionHistory(walletTransactions);
+    const walletTransactions = await getTransactionHistory({
+      privateKey,
+      assetName,
+    });
+    setTransactionHistory(walletTransactions.reverse());
   }
 
   useEffect(() => {

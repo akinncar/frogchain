@@ -25,7 +25,8 @@ export function Transaction({
     assetName,
   });
 
-  const isReceived = transaction.to === wallet.address;
+  const isReceived =
+    transaction.to.toLowerCase() === wallet.address.toLowerCase();
 
   return (
     <View
