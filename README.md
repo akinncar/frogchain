@@ -11,7 +11,10 @@
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/42688281/177664080-ae7fef07-4400-4e9a-ac38-8de0b05ba33a.png" width="240"/>
-</p>
+  <img src="https://user-images.githubusercontent.com/42688281/180678617-37d3722e-a125-410c-8680-12597a871739.png" width="240"/>
+  <img src="https://user-images.githubusercontent.com/42688281/180678624-20e056a2-39e5-4b98-a616-fd9ccd51a8de.png" width="240"/>
+</p
+
 
 ## Requirements
 - Node v17.7.1
