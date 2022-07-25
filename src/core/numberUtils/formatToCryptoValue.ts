@@ -9,6 +9,8 @@ export function formatToCryptoValue({
   value: BigNumber;
   assetName: string;
 }): string {
-  if (!value || !assetName) return;
-  return `${formatEther(value.toString())} ${assets[assetName].ticker}`;
+  const assetTicker = assets[assetName].ticker;
+  if (!value) return `0 ${assetTicker}`;
+  const etherValue = formatEther(value);
+  return `${Math.round(etherValue * 1e4) / 1e4} ${assetTicker}`;
 }

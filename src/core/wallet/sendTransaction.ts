@@ -7,10 +7,16 @@ import { getWallet } from './getWallet';
 
 export const sendTransaction = async ({
   privateKey,
+  assetName,
+  toAddress,
+  amount,
 }: {
   readonly privateKey: string;
+  readonly assetName: string;
+  readonly toAddress: string;
+  readonly amount: string;
 }) => {
-  const wallet = getWallet({ privateKey });
+  const wallet = getWallet({ privateKey, assetName });
   const provider = wallet.provider;
 
   const gasPrice = provider.getGasPrice();
@@ -20,17 +26,18 @@ export const sendTransaction = async ({
 
   const transaction = {
     from: sendAccount,
-    to: '0x4B43B8EBB73241B9eDb2878B42531A115a09Bd76',
-    value: parseEther('0.1'),
+    to: toAddress,
+    value: parseEther(amount), // 0.1
     nonce: provider.getTransactionCount(sendAccount, 'latest'),
     gasLimit: hexlify(gasLimit), // 100000
     gasPrice: gasPrice,
+    chainId: (await provider.getNetwork()).chainId,
   };
 
   try {
     const result = await wallet.sendTransaction(transaction);
     console.log('transaction result', result);
-    return { result };
+    return result;
   } catch (err) {
     console.log({ err });
   }

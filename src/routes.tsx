@@ -19,7 +19,10 @@ export type RootStackParamList = {
   readonly Onboarding: undefined;
   readonly Main: undefined;
   readonly Asset: { readonly assetName: string };
-  readonly Send: { readonly assetName: string };
+  readonly Send: {
+    readonly assetName: string;
+    updateTransactionHistory: (transactionResult: any) => void;
+  };
   readonly Receive: { readonly assetName: string };
 };
 

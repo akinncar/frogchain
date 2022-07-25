@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, SafeAreaView, Text, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useMMKVString } from 'react-native-mmkv';
@@ -59,6 +59,21 @@ export function Asset(): JSX.Element {
     setTransactionHistory(walletTransactions.reverse());
   }
 
+  async function updateTransactionHistory(newTransaction) {
+    setTransactionHistory([newTransaction, ...transactionHistory]);
+    // wait transaction finish to
+    // update balance base on tx value and gas used
+    newTransaction
+      .wait()
+      .then(receipt =>
+        setBalance(
+          balance
+            ?.sub(newTransaction.value)
+            .sub(receipt.gasUsed.mul(receipt.effectiveGasPrice))
+        )
+      );
+  }
+
   useEffect(() => {
     loadPriceHistory(graphInterval);
     loadWalletBalance();
@@ -115,7 +130,12 @@ export function Asset(): JSX.Element {
               <RoundedButton
                 icon="Send"
                 label="Send"
-                onPress={() => navigation.navigate('Send', { assetName })}
+                onPress={() =>
+                  navigation.navigate('Send', {
+                    assetName,
+                    updateTransactionHistory,
+                  })
+                }
               />
               <RoundedButton
                 icon="Receive"
@@ -130,11 +150,10 @@ export function Asset(): JSX.Element {
             </View>
             <View style={tw`w-full rounded-lg border-2 border-background py-4`}>
               <Text style={tw`text-white text-right px-4 pb-2`}>
-                {balance &&
-                  ` ${formatToCryptoValue({
-                    value: balance,
-                    assetName,
-                  })}`}
+                {formatToCryptoValue({
+                  value: balance,
+                  assetName,
+                })}
               </Text>
               <Chart graphData={graphData} />
               <View
@@ -159,6 +178,7 @@ export function Asset(): JSX.Element {
             </View>
           </SafeAreaView>
         }
+        ListFooterComponent={() => <View style={tw`h-16`} />}
         ItemSeparatorComponent={() => <View style={tw`h-4`} />}
         data={transactionHistory}
         renderItem={({ item: transaction }) => (

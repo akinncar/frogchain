@@ -1,9 +1,13 @@
 import React from 'react';
-import { TextInput as NativeTextInput } from 'react-native';
+import { TextInput as NativeTextInput, TextInputProps } from 'react-native';
 
 import { tw } from '../tailwind';
 
-export function TextInput({ style, ...props }) {
+type Props = TextInputProps & {
+  style?: TextInputProps['style'] | any;
+};
+
+export function TextInput({ style, ...props }: Props) {
   return (
     <NativeTextInput
       style={tw.style(
