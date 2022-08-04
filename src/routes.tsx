@@ -7,8 +7,9 @@ import { useMMKVString } from 'react-native-mmkv';
 import { getWallet } from './core/wallet/getWallet';
 
 import { Onboarding } from './components/onboarding/Onboarding';
+import { OnboardingExistingWallet } from './components/onboarding/OnboardingExistingWallet';
 import { Home } from './components/home/Home';
-import { Wallet } from './components/wallet/Wallet';
+import { Settings } from './components/settings/Settings';
 import { Asset } from './components/asset/Asset';
 import { Send } from './components/send/Send';
 import { Receive } from './components/receive/Receive';
@@ -17,6 +18,7 @@ import * as Icons from './components/ui/svg/icons/rn';
 
 export type RootStackParamList = {
   readonly Onboarding: undefined;
+  readonly OnboardingExistingWallet: undefined;
   readonly Main: undefined;
   readonly Asset: { readonly assetName: string };
   readonly Send: {
@@ -58,8 +60,8 @@ function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="Wallet"
-        component={Wallet}
+        name="Settings"
+        component={Settings}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icons.Frogchain name="account" color={color} size={size} />
@@ -90,6 +92,10 @@ export default function Routes() {
         detachInactiveScreens={true}
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen
+          name="OnboardingExistingWallet"
+          component={OnboardingExistingWallet}
+        />
         <Stack.Screen name="Main" component={BottomTabs} />
         <Stack.Screen name="Asset" component={Asset} />
         <Stack.Screen name="Send" component={Send} />

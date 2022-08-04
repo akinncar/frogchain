@@ -41,7 +41,7 @@ export function Onboarding(): JSX.Element {
         ]}
       >
         <Logo />
-        <View style={tw`w-full`}>
+        <View style={tw`w-full px-2`}>
           <Button
             title="Create Wallet"
             onPress={handleCreateWallet}
@@ -50,7 +50,7 @@ export function Onboarding(): JSX.Element {
           />
           <Button
             title="I Already Have a Wallet"
-            onPress={handleCreateWallet}
+            onPress={() => navigation.navigate('OnboardingExistingWallet')}
             loading={isLoading}
             variant="secondary"
           />

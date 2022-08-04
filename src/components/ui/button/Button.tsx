@@ -7,9 +7,10 @@ export function Button({
   title,
   onPress,
   loading,
+  disabled = false,
   style = {},
   variant = 'primary',
-  ...rest
+  ...props
 }): JSX.Element {
   const isPrimary = variant === 'primary';
 
@@ -19,11 +20,13 @@ export function Button({
         'justify-center rounded-full h-14 w-full',
         isPrimary && 'bg-primary',
         isPrimary ? 'border-0' : 'border-2 border-primary',
+        disabled && 'opacity-50',
         style
       )}
       activeOpacity={loading ? 1 : 0.5}
       onPress={loading ? null : onPress}
-      {...rest}
+      disabled={disabled}
+      {...props}
     >
       {loading ? (
         <Loading />
