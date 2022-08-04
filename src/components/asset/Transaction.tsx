@@ -38,11 +38,11 @@ export function Transaction({
     >
       <View style={tw`flex-row items-center`}>
         {isReceived ? <Icons.Receive /> : <Icons.Send />}
-        <Text style={tw`text-white pl-2`}>
+        <Text style={tw`text-gray-200 pl-2`}>
           {isReceived ? 'Received' : 'Sent'}
         </Text>
       </View>
-      <Text style={tw`text-white`}>
+      <Text style={tw`text-gray-200`}>
         {formatToCryptoValue({ value: transaction.value, assetName })}
       </Text>
     </View>

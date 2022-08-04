@@ -15,6 +15,7 @@ import { formatToCryptoValue } from '../../core/numberUtils/formatToCryptoValue'
 import { Chart } from './Chart';
 import { Transaction } from './Transaction';
 import { ChartSwitcher } from './ChartSwitcher';
+import { Header } from '../ui/header/Header';
 
 const GRAPH_INTERVAL_8H_PARAM = '&interval=1m&limit=480';
 const GRAPH_INTERVAL_1D_PARAM = '&interval=3m&limit=480';
@@ -122,9 +123,7 @@ export function Asset(): JSX.Element {
         bounces={false}
         ListHeaderComponent={
           <SafeAreaView style={tw`w-full items-center justify-center`}>
-            <Text style={tw`text-white text-right font-bold p-4`}>
-              {asset.label} ({asset.ticker})
-            </Text>
+            <Header title={`${asset.label} (${asset.ticker})`} />
             <View style={tw`flex-row justify-between w-full py-4`}>
               <RoundedButton icon="Buy" label="Buy" onPress={() => {}} />
               <RoundedButton
@@ -149,7 +148,7 @@ export function Asset(): JSX.Element {
               />
             </View>
             <View style={tw`w-full rounded-lg border-2 border-background py-4`}>
-              <Text style={tw`text-white text-right px-4 pb-2`}>
+              <Text style={tw`text-gray-200 text-right px-4 pb-2`}>
                 {formatToCryptoValue({
                   value: balance,
                   assetName,
@@ -180,6 +179,11 @@ export function Asset(): JSX.Element {
         }
         ListFooterComponent={() => <View style={tw`h-16`} />}
         ItemSeparatorComponent={() => <View style={tw`h-4`} />}
+        ListEmptyComponent={() => (
+          <Text style={tw`text-gray-200 text-center p-4`}>
+            You don't have any transactions yet. 😕
+          </Text>
+        )}
         data={transactionHistory}
         renderItem={({ item: transaction }) => (
           <Transaction transaction={transaction} assetName={assetName} />

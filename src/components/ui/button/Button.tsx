@@ -31,7 +31,7 @@ export function Button({
       {loading ? (
         <Loading />
       ) : (
-        <Text style={tw`text-white text-center font-bold`}>{title}</Text>
+        <Text style={tw`text-gray-200 text-center font-bold`}>{title}</Text>
       )}
     </TouchableOpacity>
   );

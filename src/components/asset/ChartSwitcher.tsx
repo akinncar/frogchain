@@ -21,7 +21,7 @@ export function ChartSwitcher({
       )}
       onPress={onPress}
     >
-      <Text style={tw`text-white uppercase`}>{label}</Text>
+      <Text style={tw`text-gray-200 uppercase`}>{label}</Text>
     </TouchableOpacity>
   );
 }

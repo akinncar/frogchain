@@ -39,11 +39,13 @@ export function AssetRow({ assetName }): JSX.Element {
       <>
         <Icon />
         <View style={tw`content-center`}>
-          <Text style={tw`text-white pl-4 font-bold`}>{asset.ticker}</Text>
-          <Text style={tw`text-white pl-4 opacity-50	pt-1`}>{asset.label}</Text>
+          <Text style={tw`text-gray-200 pl-4 font-bold`}>{asset.ticker}</Text>
+          <Text style={tw`text-gray-200 pl-4 opacity-50	pt-1`}>
+            {asset.label}
+          </Text>
         </View>
       </>
-      <Text style={tw`flex-1 text-white text-right`}>
+      <Text style={tw`flex-1 text-gray-200 text-right`}>
         {price
           ? parseFloat(price).toLocaleString('en-US', {
               style: 'currency',

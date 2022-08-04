@@ -7,7 +7,7 @@ import { tw } from '../tailwind';
 export function RoundedButton({
   icon,
   onPress,
-  label,
+  label = null,
   style = {},
   variant = 'primary',
   ...rest
@@ -29,7 +29,7 @@ export function RoundedButton({
       >
         <Icon />
       </TouchableOpacity>
-      {label && <Text style={tw`text-white text-center py-2`}>{label}</Text>}
+      {label && <Text style={tw`text-gray-200 text-center py-2`}>{label}</Text>}
     </View>
   );
 }

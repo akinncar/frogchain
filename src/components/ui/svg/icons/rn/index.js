@@ -1,3 +1,4 @@
+export { default as ArrowBack } from './ArrowBack';
 export { default as Buy } from './Buy';
 export { default as Convert } from './Convert';
 export { default as Copy } from './Copy';

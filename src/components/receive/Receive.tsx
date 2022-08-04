@@ -31,7 +31,7 @@ export function Receive(): JSX.Element {
       <QRCode size={170} value={wallet.address} />
       <View style={tw`flex-row items-center px-8`}>
         <Text
-          style={tw`text-white text-center py-8 px-4`}
+          style={tw`text-gray-200 text-center py-8 px-4`}
           numberOfLines={1}
           ellipsizeMode="middle"
         >

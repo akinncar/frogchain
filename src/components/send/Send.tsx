@@ -35,7 +35,7 @@ export function Send(): JSX.Element {
 
   return (
     <View style={tw`flex-1 items-center justify-center px-4`}>
-      <Text style={tw`text-white text-center mb-4`}>Send</Text>
+      <Text style={tw`text-gray-200 text-center mb-4`}>Send</Text>
       <TextInput
         value={toAddress}
         onChangeText={text => setToAddress(text)}

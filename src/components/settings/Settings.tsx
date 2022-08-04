@@ -25,7 +25,7 @@ export function Settings({ navigation }): JSX.Element {
         resizeMode="cover"
         style={StyleSheet.absoluteFill}
       />
-      <Text style={tw`text-white text-center pb-4`}>{wallet?.address}</Text>
+      <Text style={tw`text-gray-200 text-center pb-4`}>{wallet?.address}</Text>
       <Button title="Delete wallet" onPress={handleDeleteAllWallets} />
     </View>
   );
