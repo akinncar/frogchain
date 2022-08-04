@@ -37,11 +37,11 @@ export function Onboarding(): JSX.Element {
       <SafeAreaView
         style={[
           StyleSheet.absoluteFill,
-          tw`items-center justify-between px-4 my-16`,
+          tw`items-center justify-between  my-16`,
         ]}
       >
         <Logo />
-        <View style={tw`w-full px-2`}>
+        <View style={tw`w-full px-4`}>
           <Button
             title="Create Wallet"
             onPress={handleCreateWallet}

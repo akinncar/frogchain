@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { tw } from '../ui/tailwind';
 import { assets } from '../../constants/assets';
+import { priceFallback } from '../../constants/priceFallback';
 
 import assetIcons from '../ui/svg/asset-icon';
 
@@ -14,7 +15,7 @@ export function AssetRow({ assetName }): JSX.Element {
 
   const Icon = assetIcons[assetName];
 
-  const [price, setPrice] = useState('0.0');
+  const [price, setPrice] = useState(null);
 
   useEffect(() => {
     const wsPrice = new WebSocket(
@@ -43,10 +44,12 @@ export function AssetRow({ assetName }): JSX.Element {
         </View>
       </>
       <Text style={tw`flex-1 text-white text-right`}>
-        {parseFloat(price).toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        })}
+        {price
+          ? parseFloat(price).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            } as Intl.NumberFormatOptions)
+          : priceFallback}
       </Text>
     </TouchableOpacity>
   );
