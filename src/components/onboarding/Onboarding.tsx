@@ -23,7 +23,7 @@ export function Onboarding(): JSX.Element {
     });
     setIsLoading(false);
     console.log({ newWallet });
-    return navigation.navigate('Home');
+    return navigation.navigate('Main');
   }
 
   return (
